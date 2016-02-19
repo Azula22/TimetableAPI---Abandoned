@@ -7,4 +7,20 @@
             <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
         </div>
     </form>
+
+    <div class="point-display">
+    <fieldset>
+        <table cellspacing="20">
+            <tr>
+                name
+            </tr>
+            @for(point<-points){
+                <tr>
+                    <td>@point.subject</td>
+                    <td><a href="@routes.Application.deletePoint(point.id) ">delete</a></td>
+                </tr>
+            }
+        </table>
+    </fieldset>
+    </div>
 }

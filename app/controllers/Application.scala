@@ -25,4 +25,6 @@ class Application extends Controller {
         }
       )
   }
+
+  def deletePoint(id: Long) = TODO
 }
