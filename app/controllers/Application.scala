@@ -6,4 +6,5 @@ class Application extends Controller {
 
   def index = TODO
 
+  def addUser = TODO
 }
