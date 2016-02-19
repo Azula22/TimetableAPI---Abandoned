@@ -10,23 +10,23 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 
-case class Point(id: Long, name: String)
+case class Point(id: Long, subject: String)
 
-case class PointFormData(name: String)
+case class PointFormData(subject: String)
 
 object PointForm {
   val form = Form(
     mapping(
-      "name" -> nonEmptyText
+      "subject" -> nonEmptyText
     )(PointFormData.apply)(PointFormData.unapply)
   )
 }
 
-class PointTableDef(tag: Tag) extends Table[Point](tag, "Point") {
+class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-  def name = column[String]("name")
+  def subject = column[String]("subject")
 
-  override def * = (id, name) <>(Point.tupled, Point.unapply)
+  override def * = (id, subject) <>(Point.tupled, Point.unapply)
 }
 
 object Points {
