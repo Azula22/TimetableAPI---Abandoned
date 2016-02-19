@@ -42,4 +42,12 @@ object Points {
   def delete(id: Long): Future[Int] = {
     dbConfig.db.run(points.filter(_.id === id).delete)
   }
+
+  def get(id:Long): Future[Option[Point]] = {
+    dbConfig.db.run(points.filter(_.id===id).result.headOption)
+  }
+
+  def listAll: Future[Seq[Point]] ={
+    dbConfig.db.run(points.result)
+  }
 }
