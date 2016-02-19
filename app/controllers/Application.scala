@@ -26,5 +26,10 @@ class Application extends Controller {
       )
   }
 
-  def deletePoint(id: Long) = TODO
+  def deletePoint(id: Long) = Action.async {
+    implicit request =>
+      PointService.deletePoint(id) map {
+        res => Redirect(routes.Application.index())
+      }
+  }
 }
