@@ -1,12 +1,19 @@
 package controllers
 
 import models.{Point, PointForm}
+import play.api.libs.json.{Json, JsValue, Writes}
 import play.api.mvc._
 import services.PointService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class Application extends Controller {
+
+  val pointWrites = new Writes[Point] {
+    override def writes(point: Point): JsValue = Json.obj(
+      "id" -> point.id,
+      "name" -> point.subject)
+  }
 
   def index = Action.async {
     implicit request =>
@@ -15,14 +22,14 @@ class Application extends Controller {
       }
   }
 
+
   def addUser = Action.async {
     implicit request =>
       PointForm.form.bindFromRequest.fold(
         errorForm => Future.successful(Ok(views.html.index(errorForm, Seq.empty[Point]))),
         data => {
           val newPoint = Point(0, data.subject)
-          PointService.addPoint(newPoint).map(res => Redirect(routes.Application.index()))
-        }
+          PointService.addPoint(newPoint).map(res => Redirect(routes.Application.index()))}
       )
   }
 
@@ -32,4 +39,6 @@ class Application extends Controller {
         res => Redirect(routes.Application.index())
       }
   }
+
+
 }
