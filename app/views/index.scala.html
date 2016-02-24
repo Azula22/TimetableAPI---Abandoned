@@ -1,0 +1,38 @@
+@(pointform: Form[models.PointFormData], points: Seq[models.Point])(implicit request: RequestHeader)
+@main() {
+    <form id="point-data-form" role="form" action='@routes.Application.addUser()' method="post" class="form-horizontal" align="center" autocomplete="off">
+
+        <input type="text" id="subject" name="subject" value="" placeholder="Subject" class="form-control input-lg" required>
+        <input type="text" id="groupName" name="groupName" value="" placeholder="Name of Group" class="form-control input-lg" required>
+        <input type="text" id="start" name="start" value="" placeholder="Start" class="form-control input-lg" required>
+        <input type="text" id="ending" name="ending" value="" placeholder="End" class="form-control input-lg" required>
+        <input type="text" id="kind" name="kind" value="" placeholder="Type" class="form-control input-lg" required>
+        <input type="text" id="teacher" name="teacher" value="" placeholder="Teacher" class="form-control input-lg" required>
+        <input type="number" id="auditorium" name="auditorium" value="" placeholder="Auditorium" class="form-control input-lg" required>
+        <div class="form-actions controls ynt-btn-xlarge">
+            <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
+        </div>
+    </form>
+
+    <div class="point-display">
+        <fieldset>
+            <table cellspacing="20">
+                <tr>
+                    name
+                </tr>
+                @for(point <- points) {
+                    <tr>
+                        <td>@point.subject</td>
+                        <td>@point.groupName</td>
+                        <td>@point.start</td>
+                        <td>@point.ending</td>
+                        <td>@point.kind</td>
+                        <td>@point.teacher</td>
+                        <td>@point.auditorium</td>
+                        <td><a href="@routes.Application.deletePoint(point.id) ">delete</a></td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+}
