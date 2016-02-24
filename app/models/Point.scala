@@ -1,5 +1,7 @@
 package models
 
+import java.sql.Time
+
 import play.api.Play
 import play.api.data.Form
 import play.api.data.Forms._
@@ -10,7 +12,7 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 
-case class Point(id: Long, subject: String, groupName: String, kind: String, start: String, ending: String,
+case class Point(id: Long, subject: String, groupName: String, kind: String, start: Time, ending: Time,
                  teacher: String, auditorium: Int)
 
 case class PointFormData(subject: String, groupName: String, kind: String, start: String, ending: String,
@@ -39,9 +41,9 @@ class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
 
   def kind = column[String]("kind")
 
-  def start = column[String]("start")
+  def start = column[Time]("start")
 
-  def ending = column[String]("ending")
+  def ending = column[Time]("ending")
 
   def teacher = column[String]("teacher")
 
@@ -68,7 +70,7 @@ object Points {
     dbConfig.db.run(points.filter(_.id === id).result.headOption)
   }
 
-  def listAll: Future[Seq[Point]] = {
+  def listAll: Future[Seq[Point]] ={
     dbConfig.db.run(points.result)
   }
 }
