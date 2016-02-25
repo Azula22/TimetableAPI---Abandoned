@@ -22,4 +22,8 @@ object PointService {
   def listAllPoints: Future[Seq[Point]] = {
     Points.listAll
   }
+
+  def group(group: String): Future[Seq[Point]]={
+    Points.getGroup(group)
+  }
 }

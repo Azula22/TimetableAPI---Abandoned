@@ -70,7 +70,12 @@ object Points {
     dbConfig.db.run(points.filter(_.id === id).result.headOption)
   }
 
-  def listAll: Future[Seq[Point]] ={
+  def listAll: Future[Seq[Point]] = {
     dbConfig.db.run(points.result)
   }
+
+  def getGroup(group: String): Future[Seq[Point]] = {
+    dbConfig.db.run(points.filter(_.groupName === group).result)
+  }
+
 }
