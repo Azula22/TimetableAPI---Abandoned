@@ -15,7 +15,7 @@ object PointService {
     Points.delete(id)
   }
 
-  def getPoint(id: Long): Future[Option[Point]] = {
+  def get(id: Long): Future[Option[Point]] = {
     Points.get(id)
   }
 
@@ -23,7 +23,7 @@ object PointService {
     Points.listAll
   }
 
-  def group(group: String): Future[Seq[Point]]={
+  def group(group: String): Future[Seq[Point]] = {
     Points.getGroup(group)
   }
 }
