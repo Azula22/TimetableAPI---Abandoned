@@ -10,6 +10,8 @@ import scala.concurrent.Future
 
 class Application extends Controller {
 
+  val days = Seq("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
   implicit val pointWrite = new Writes[Seq[Point]] {
     override def writes(points: Seq[Point]) = Json.obj(
       "status" -> 0,
@@ -40,8 +42,12 @@ class Application extends Controller {
       PointForm.form.bindFromRequest.fold(
         errorForm => Future.successful(Ok(views.html.index(errorForm, Seq.empty[Point]))),
         data => {
-          val newPoint = Point(0, data.subject, data.day, data.groupName, data.kind, formatTime(data.start), formatTime(data.ending), data.teacher, data.auditorium)
-          PointService.addPoint(newPoint).map(res => Redirect(routes.Application.index()))
+          if (days.contains(data.day)) {
+            val newPoint = Point(0, data.subject, data.day, data.groupName, data.kind, formatTime(data.start), formatTime(data.ending), data.teacher, data.auditorium)
+            PointService.addPoint(newPoint).map(res => Redirect(routes.Application.index()))
+          } else Future {
+            Redirect(routes.Application.index())
+          }
         }
       )
   }
