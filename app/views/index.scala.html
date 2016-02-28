@@ -4,6 +4,7 @@
 
         <input type="text" id="subject" name="subject" value="" placeholder="Subject" class="form-control input-lg" required>
         <input type="text" id="groupName" name="groupName" value="" placeholder="Name of Group" class="form-control input-lg" required>
+        <input type="text" id="day" name="day" value="" placeholder="Day" class="form-control input-lg" required>
         <input type="text" id="start" name="start" value="" placeholder="Start" class="form-control input-lg" required>
         <input type="text" id="ending" name="ending" value="" placeholder="End" class="form-control input-lg" required>
         <input type="text" id="kind" name="kind" value="" placeholder="Type" class="form-control input-lg" required>
@@ -19,6 +20,7 @@
             <table cellspacing="20">
                 <tr>
                     <th>Subject</th>
+                    <th>Day</th>
                     <th>Name of group</th>
                     <th>Start</th>
                     <th>End</th>
@@ -29,6 +31,7 @@
                 @for(point <- points) {
                     <tr>
                         <td>@point.subject</td>
+                        <td>@point.day</td>
                         <td>@point.groupName</td>
                         <td>@point.start</td>
                         <td>@point.ending</td>

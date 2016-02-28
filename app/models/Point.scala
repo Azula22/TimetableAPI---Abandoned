@@ -13,16 +13,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
-case class Point(id: Long, subject: String, groupName: String, kind: String, start: Time, ending: Time,
+case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, ending: Time,
                  teacher: String, auditorium: Int)
 
-case class PointFormData(subject: String, groupName: String, kind: String, start: String, ending: String,
+case class PointFormData(subject: String, day: String, groupName: String, kind: String, start: String, ending: String,
                          teacher: String, auditorium: Int)
 
 object PointForm {
   val form = Form(
     mapping(
       "subject" -> nonEmptyText,
+      "day" -> nonEmptyText,
       "groupName" -> nonEmptyText,
       "kind" -> nonEmptyText,
       "start" -> nonEmptyText,
@@ -38,6 +39,8 @@ class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
 
   def subject = column[String]("subject")
 
+  def day = column[String]("day")
+
   def groupName = column[String]("groupName")
 
   def kind = column[String]("kind")
@@ -50,7 +53,7 @@ class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
 
   def auditorium = column[Int]("auditorium")
 
-  override def * = (id, subject, groupName, kind, start, ending, teacher, auditorium) <>(Point.tupled, Point.unapply)
+  override def * = (id, subject, day, groupName, kind, start, ending, teacher, auditorium) <>(Point.tupled, Point.unapply)
 }
 
 object Points {

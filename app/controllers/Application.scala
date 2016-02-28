@@ -17,6 +17,7 @@ class Application extends Controller {
         "group" -> points.head.groupName,
         "subjects" -> points.map(point =>
           Json.obj(
+            "day" -> point.day,
             "subj" -> point.subject,
             "type" -> point.kind,
             "start" -> point.start,
@@ -39,7 +40,7 @@ class Application extends Controller {
       PointForm.form.bindFromRequest.fold(
         errorForm => Future.successful(Ok(views.html.index(errorForm, Seq.empty[Point]))),
         data => {
-          val newPoint = Point(0, data.subject, data.groupName, data.kind, formatTime(data.start), formatTime(data.ending), data.teacher, data.auditorium)
+          val newPoint = Point(0, data.subject, data.day, data.groupName, data.kind, formatTime(data.start), formatTime(data.ending), data.teacher, data.auditorium)
           PointService.addPoint(newPoint).map(res => Redirect(routes.Application.index()))
         }
       )
