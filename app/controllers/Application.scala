@@ -12,16 +12,18 @@ class Application extends Controller {
 
   implicit val pointWrite = new Writes[Seq[Point]] {
     override def writes(points: Seq[Point]) = Json.obj(
-      "group" -> points.head.groupName,
-      "subjects" -> Json.arr(points.map(point =>
-        Json.obj(
-          "subj" -> point.subject,
-          "type" -> point.kind,
-          "start" -> point.start,
-          "end" -> point.ending,
-          "teacher" -> point.teacher,
-          "aa" -> point.auditorium
-        ))))
+      "status" -> 0,
+      "data" -> Json.obj(
+        "group" -> points.head.groupName,
+        "subjects" -> points.map(point =>
+          Json.obj(
+            "subj" -> point.subject,
+            "type" -> point.kind,
+            "start" -> point.start,
+            "end" -> point.ending,
+            "teacher" -> point.teacher,
+            "aa" -> point.auditorium
+          ))))
   }
 
   def index = Action.async {
@@ -58,11 +60,10 @@ class Application extends Controller {
   def getGroupJson(group: String) = Action.async {
     implicit request =>
       PointService.group(group).map(
-        res => Ok(Json.toJson(res))
+        res => res.headOption match {
+          case Some(v) => Ok(Json.prettyPrint(Json.toJson(res)))
+          case None => Ok(Json.prettyPrint(Json.obj("status" -> 1, "data" -> "Group doesn't exist")))
+        }
       )
-  }
-
-  def getById(id: Long) = Action {
-    Ok(PointService.getPoint(id).toString)
   }
 }
