@@ -1,7 +1,7 @@
 package controllers
 
 import models.{Point, PointForm}
-import play.api.libs.json.{JsValue, Json, Writes}
+import play.api.libs.json.{Json, Writes}
 import play.api.mvc._
 import services.PointService
 
@@ -11,16 +11,17 @@ import scala.concurrent.Future
 class Application extends Controller {
 
   implicit val pointWrite = new Writes[Seq[Point]] {
-    override def writes(points: Seq[Point]) = Json.arr(points.map(point =>
-      Json.obj(
-        "subj" -> point.subject,
-        "gName" -> point.groupName,
-        "type" -> point.kind,
-        "start" -> point.start,
-        "end" -> point.ending,
-        "teacher" -> point.teacher,
-        "aa" -> point.auditorium
-      )))
+    override def writes(points: Seq[Point]) = Json.obj(
+      "group" -> points.head.groupName,
+      "subjects" -> Json.arr(points.map(point =>
+        Json.obj(
+          "subj" -> point.subject,
+          "type" -> point.kind,
+          "start" -> point.start,
+          "end" -> point.ending,
+          "teacher" -> point.teacher,
+          "aa" -> point.auditorium
+        ))))
   }
 
   def index = Action.async {
@@ -54,16 +55,14 @@ class Application extends Controller {
     java.sql.Time.valueOf(nTime)
   }
 
+  def getGroupJson(group: String) = Action.async {
+    implicit request =>
+      PointService.group(group).map(
+        res => Ok(Json.toJson(res))
+      )
+  }
 
-  //It's working wrong. Fix it
-  def getGroupJson(group: String) = Action {
-    val groups = PointService.group(group).value
-    groups match {
-      case Some(value) =>
-        val json = Json.toJson(value.get)
-        val readable = Json.prettyPrint(json)
-        Ok(readable)
-      case None => Ok("bad news")
-    }
+  def getById(id: Long) = Action {
+    Ok(PointService.getPoint(id).toString)
   }
 }
