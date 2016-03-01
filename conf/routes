@@ -3,9 +3,10 @@
 # ~~~~
 
 # Home page
-GET         /                         controllers.Application.index
-POST        /add                      controllers.Application.addUser
-GET         /delete                   controllers.Application.deletePoint(id: Long)
+GET         /schedule                 controllers.Application.index
+POST        /schedule/add             controllers.Application.addUser
+GET         /schedule/delete          controllers.Application.deletePoint(id: Long)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)
