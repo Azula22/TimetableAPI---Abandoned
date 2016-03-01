@@ -26,4 +26,8 @@ object PointService {
   def group(group: String): Future[Seq[Point]] = {
     Points.getGroup(group)
   }
+
+  def teacher(teacher:String):Future[Seq[Point]] = {
+    Points.getTeacher(teacher)
+  }
 }
