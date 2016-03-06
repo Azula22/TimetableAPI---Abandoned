@@ -1,6 +1,6 @@
 @(pointform: Form[models.PointFormData], points: Seq[models.Point])(implicit request: RequestHeader)
 @main() {
-    <form id="point-data-form" role="form" action='@routes.Application.addUser()' method="post" class="form-horizontal" align="center" autocomplete="off">
+    <form id="point-data-form" role="form" action='@routes.PointController.addUser()' method="post" class="form-horizontal" align="center" autocomplete="off">
 
         <input type="text" id="subject" name="subject" value="" placeholder="Subject" class="form-control input-lg" required>
         <input type="text" id="groupName" name="groupName" value="" placeholder="Name of Group" class="form-control input-lg" required>
@@ -38,7 +38,7 @@
                         <td>@point.kind</td>
                         <td>@point.teacher</td>
                         <td>@point.auditorium</td>
-                        <td><a href="@routes.Application.deletePoint(point.id) ">delete</a></td>
+                        <td><a href="@routes.PointController.deletePoint(point.id) ">delete</a></td>
                     </tr>
                 }
             </table>

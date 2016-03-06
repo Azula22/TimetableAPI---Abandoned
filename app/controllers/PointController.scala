@@ -1,14 +1,13 @@
 package controllers
 
 import models.{Point, PointForm}
-import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
 import services.PointService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Application extends Controller {
+class PointController extends Controller {
 
   val days: Seq[String] = Seq("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
@@ -26,10 +25,10 @@ class Application extends Controller {
         data => {
           if (days.contains(data.day)) {
             val newPoint = Point(0, data.subject, data.day, data.groupName, data.kind, formatTime(data.start), formatTime(data.ending), data.teacher, data.auditorium)
-            PointService.addPoint(newPoint).map(res => Redirect(routes.Application.index()))
+            PointService.addPoint(newPoint).map(res => Redirect(routes.PointController.index()))
           } else Future {
             //TODO make error message instead redirecting
-            Redirect(routes.Application.index())
+            Redirect(routes.PointController.index())
           }
         }
       )
@@ -38,7 +37,7 @@ class Application extends Controller {
   def deletePoint(id: Long) = Action.async {
     implicit request =>
       PointService.deletePoint(id) map {
-        res => Redirect(routes.Application.index())
+        res => Redirect(routes.PointController.index())
       }
   }
 

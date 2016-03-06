@@ -1,6 +1,6 @@
 package services
 
-import models.{Groups, Group}
+import models.{Group, Groups}
 
 import scala.concurrent.Future
 
@@ -15,5 +15,9 @@ object GroupService {
 
   def get(id: Long): Future[Option[Group]] = {
     Groups.get(id)
+  }
+
+  def listAllGroups: Future[Seq[Group]] = {
+   Groups.listAll
   }
 }

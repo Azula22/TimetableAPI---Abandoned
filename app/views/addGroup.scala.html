@@ -1,0 +1,12 @@
+@(groupForm: Form[models.GroupFormData], groups: Seq[models.Group])(implicit request: RequestHeader)
+
+@main() {
+
+    <form id="group-data-form" role="form" action='@routes.GroupController.addGroup()' method="post" class="form-horizontal" align="center" autocomplete="off">
+        <input type="text" id="nameGroup" name="nameGroup" value="" placeholder="Name of Group" class="form-control input-lg" required>
+        <div class="form-actions controls ynt-btn-xlarge">
+            <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
+        </div>
+    </form>
+}
+

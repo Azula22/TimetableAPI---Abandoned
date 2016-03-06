@@ -10,14 +10,14 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class Group(id: Long, groupName: String)
+case class Group(id: Long, nameGroup: String)
 
-case class GroupFormData(groupName: String)
+case class GroupFormData(nameGroup: String)
 
 object GroupForm {
   val form = Form(
     mapping(
-      "groupName" -> nonEmptyText
+      "nameGroup" -> nonEmptyText
     )(GroupFormData.apply)(GroupFormData.unapply)
   )
 }
@@ -48,4 +48,9 @@ object Groups{
   def get(id: Long): Future[Option[Group]] = {
     dbConfig.db.run(groups.filter(_.id === id).result.headOption)
   }
+
+  def listAll: Future[Seq[Group]] = {
+    dbConfig.db.run(groups.result)
+  }
+
 }
