@@ -14,9 +14,16 @@ class ScheduleController extends Controller {
   val days: Seq[String] = Seq("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 
-  def index(seq: Seq[Point]) = Action.async {
+  def indexDefault = Action.async {
     implicit request =>
       PointService.listAllPoints.map {
+        points => Ok(views.html.showSchedule(GroupForm.form, points, days))
+      }
+  }
+
+  def index(data: String) = Action.async {
+    implicit request =>
+      PointService.group(data).map {
         points => Ok(views.html.showSchedule(GroupForm.form, points, days))
       }
   }
@@ -26,8 +33,8 @@ class ScheduleController extends Controller {
       GroupForm.form.bindFromRequest.fold(
         errorForm => Future.successful(Ok(views.html.showSchedule(errorForm, Seq.empty[Point], days))),
         data => {
-          PointService.group(data.nameGroup).map(
-            res => Redirect(routes.ScheduleController.index()))
+          PointService.listAllPoints.map(
+            res => Redirect(routes.ScheduleController.index(data.nameGroup)))
         }
       )
   }
