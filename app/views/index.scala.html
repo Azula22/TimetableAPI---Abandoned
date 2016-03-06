@@ -1,4 +1,4 @@
-@(pointform: Form[models.PointFormData], points: Seq[models.Point])(implicit request: RequestHeader)
+@(pointform: Form[models.PointFormData],  points: Seq[models.Point])(implicit request: RequestHeader)
 @main() {
     <form id="point-data-form" role="form" action='@routes.PointController.addUser()' method="post" class="form-horizontal" align="center" autocomplete="off">
 

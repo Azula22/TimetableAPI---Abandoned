@@ -1,0 +1,44 @@
+@(groupform: Form[models.GroupFormData], points: Seq[models.Point], days: Seq[String])(implicit request: RequestHeader)
+
+@main() {
+    <form id="point-data-form" role="form" action='@routes.ScheduleController.checkGroup()' method="post" class="form-horizontal" align="center" autocomplete="off">
+        <div>Name of group</div>
+        <input type="text" id="nameGroup" name="nameGroup" value="" placeholder="Name of group" class="form-control input-lg" required>
+        <div class="form-actions controls ynt-btn-xlarge">
+            <button type=submit class="btn btn-primary ynt-btn-orange">Show</button>
+        </div>
+    </form>
+
+    <div class="point-display">
+        <fieldset>
+        @for(d <- days) {
+            <div>@d</div>
+            <table cellspacing="20">
+                <tr>
+                    <th>Subject</th>
+                    <th>Name of group</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Type</th>
+                    <th>Teacher</th>
+                    <th>Auditorium</th>
+                </tr>
+                @for(point <- points
+                    if point.day == d
+                ){
+                <tr>
+                    <td>@point.subject</td>
+                    <td>@point.groupName</td>
+                    <td>@point.start</td>
+                    <td>@point.ending</td>
+                    <td>@point.kind</td>
+                    <td>@point.teacher</td>
+                    <td>@point.auditorium</td>
+                    <td><a href="@routes.PointController.deletePoint(point.id) ">delete</a></td>
+                </tr>
+                }
+            </table>
+        }
+        </fieldset>
+    </div>
+}
