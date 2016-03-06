@@ -11,34 +11,33 @@
 
     <div class="point-display">
         <fieldset>
-        @for(d <- days) {
-            <div>@d</div>
             <table cellspacing="20">
                 <tr>
-                    <th>Subject</th>
-                    <th>Name of group</th>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Type</th>
-                    <th>Teacher</th>
-                    <th>Auditorium</th>
+                    <td>Subject</td>
+                    <td>Name of group</td>
+                    <td>Start</td>
+                    <td>End</td>
+                    <td>Type</td>
+                    <td>Teacher</td>
+                    <td>Auditorium</td>
                 </tr>
-                @for(point <- points
-                    if point.day == d
-                ){
-                <tr>
-                    <td>@point.subject</td>
-                    <td>@point.groupName</td>
-                    <td>@point.start</td>
-                    <td>@point.ending</td>
-                    <td>@point.kind</td>
-                    <td>@point.teacher</td>
-                    <td>@point.auditorium</td>
-                    <td><a href="@routes.PointController.deletePoint(point.id) ">delete</a></td>
-                </tr>
+                @for(d <- days) {
+                    <tr><th>@d</th></tr>
+                    @for(point <- points
+                        if point.day == d
+                    ) {
+                        <tr>
+                            <td>@point.subject</td>
+                            <td>@point.groupName</td>
+                            <td>@point.start</td>
+                            <td>@point.ending</td>
+                            <td>@point.kind</td>
+                            <td>@point.teacher</td>
+                            <td>@point.auditorium</td>
+                        </tr>
+                    }
                 }
             </table>
-        }
         </fieldset>
     </div>
 }
