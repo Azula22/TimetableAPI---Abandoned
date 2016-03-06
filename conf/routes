@@ -4,7 +4,7 @@
 
 #For all schedule
 GET         /schedule                 controllers.PointController.index
-POST        /schedule/add             controllers.PointController.addUser
+POST        /schedule/add             controllers.PointController.addPoints
 GET         /schedule/delete          controllers.PointController.deletePoint(id: Long)
 
 GET         /                         controllers.ScheduleController.indexDefault
