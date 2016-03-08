@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Point, PointForm}
+import models.{GroupForm, Point, PointForm}
 import play.api.mvc._
 import services.PointService
 
@@ -10,7 +10,7 @@ import scala.concurrent.Future
 class PointController extends Controller {
 
   val days: Seq[String] = Seq("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-val times: Seq[String] = Seq("8:00", "9:35", "11:10", "12:50", "14:25", "16:00")
+  val times: Seq[String] = Seq("8:00", "9:35", "11:10", "12:50", "14:25", "16:00")
 
   def index = Action.async {
     implicit request =>
@@ -24,8 +24,15 @@ val times: Seq[String] = Seq("8:00", "9:35", "11:10", "12:50", "14:25", "16:00")
       PointForm.form.bindFromRequest.fold(
         errorForm => Future.successful(Ok(views.html.index(errorForm, Seq.empty[Point], days, times))),
         data => {
-          val newPoint = Point(0, data.subject, data.day, data.groupName, data.kind, formatTime(data.start), formatTime(data.ending), data.teacher, data.auditorium)
-          PointService.addPoint(newPoint).map(res => Redirect(routes.PointController.index()))
+          for (d <- days) {
+            for (t <- times) {
+              if (data.subject != null) {
+                val newPoint = Point(0, data.subject, d, data.groupName, data.kind, formatTime(t), data.teacher, data.auditorium)
+                PointService.addPoint(newPoint)
+              }
+            }
+          }
+          PointService.listAllPoints.map(res => Redirect(routes.PointController.index()))
         }
       )
   }

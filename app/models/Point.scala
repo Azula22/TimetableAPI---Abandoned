@@ -13,24 +13,21 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
-case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, ending: Time,
-                 teacher: String, auditorium: Int)
+case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, teacher: String, auditorium: Int)
 
-case class PointFormData(subject: String, day: String, groupName: String, kind: String, start: String, ending: String,
+case class PointFormData(subject: String, groupName: String, kind: String,
                          teacher: String, auditorium: Int)
+
 
 object PointForm {
   val form = Form(
-    mapping(
-      "subject" -> nonEmptyText,
-      "day" -> nonEmptyText,
-      "groupName" -> nonEmptyText,
-      "kind" -> nonEmptyText,
-      "start" -> nonEmptyText,
-      "ending" -> nonEmptyText,
-      "teacher" -> nonEmptyText,
-      "auditorium" -> number
-    )(PointFormData.apply)(PointFormData.unapply)
+      mapping(
+        "subject" -> text,
+        "groupName" -> text,
+        "kind" -> text,
+        "teacher" -> text,
+        "auditorium" -> number
+      )(PointFormData.apply)(PointFormData.unapply)
   )
 }
 
@@ -47,13 +44,11 @@ class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
 
   def start = column[Time]("start")
 
-  def ending = column[Time]("ending")
-
   def teacher = column[String]("teacher")
 
   def auditorium = column[Int]("auditorium")
 
-  override def * = (id, subject, day, groupName, kind, start, ending, teacher, auditorium) <>(Point.tupled, Point.unapply)
+  override def * = (id, subject, day, groupName, kind, start, teacher, auditorium) <>(Point.tupled, Point.unapply)
 }
 
 object Points {
@@ -82,7 +77,7 @@ object Points {
     dbConfig.db.run(points.filter(_.groupName === group).result)
   }
 
-  def getTeacher(teacher: String):Future[Seq[Point]] = {
+  def getTeacher(teacher: String): Future[Seq[Point]] = {
     dbConfig.db.run(points.filter(_.teacher === teacher).result)
   }
 

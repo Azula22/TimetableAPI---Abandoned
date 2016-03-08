@@ -6,10 +6,10 @@
             <h3>@d</h3>
             @for(t <- times) {
                 @t
-                <div> <input type="text" id="subject" name="subject" value="" placeholder="Subject" class="form-control input-lg" required>
-                    <input type="text" id="kind" name="kind" value="" placeholder="Type" class="form-control input-lg" required>
-                    <input type="text" id="teacher" name="teacher" value="" placeholder="Teacher" class="form-control input-lg" required>
-                    <input type="number" id="auditorium" name="auditorium" value="" placeholder="Auditorium" class="form-control input-lg" required>
+                <div> <input type="text" id="subject" name="subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
                 </div>
             }
         }
@@ -26,7 +26,6 @@
                     <th>Day</th>
                     <th>Name of group</th>
                     <th>Start</th>
-                    <th>End</th>
                     <th>Type</th>
                     <th>Teacher</th>
                     <th>Auditorium</th>
@@ -37,7 +36,6 @@
                         <td>@point.day</td>
                         <td>@point.groupName</td>
                         <td>@point.start</td>
-                        <td>@point.ending</td>
                         <td>@point.kind</td>
                         <td>@point.teacher</td>
                         <td>@point.auditorium</td>
