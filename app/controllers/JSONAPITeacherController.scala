@@ -16,7 +16,6 @@ class JSONAPITeacherController extends Controller{
       "subj" -> point.subject,
       "type" -> point.kind,
       "start" -> point.start,
-      "end" -> point.ending,
       "auditorium" -> point.auditorium
     )
   }

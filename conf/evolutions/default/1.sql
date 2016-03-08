@@ -8,7 +8,6 @@ CREATE TABLE Points (
   day        TEXT    NOT NULL,
   groupName  TEXT    NOT NULL,
   start      TIME    NOT NULL,
-  ending     TIME    NOT NULL,
   kind       TEXT    NOT NULL,
   teacher    TEXT    NOT NULL,
   auditorium INTEGER NOT NULL,

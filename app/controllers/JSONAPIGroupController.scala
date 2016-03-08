@@ -14,7 +14,6 @@ class JSONAPIGroupController extends Controller{
       "subj" -> point.subject,
       "type" -> point.kind,
       "start" -> point.start,
-      "end" -> point.ending,
       "teacher" -> point.teacher,
       "auditorium" -> point.auditorium
     )
