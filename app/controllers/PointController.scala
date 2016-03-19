@@ -1,6 +1,6 @@
 package controllers
 
-import models.{GroupForm, Point, PointForm}
+import models._
 import play.api.mvc._
 import services.PointService
 
@@ -15,22 +15,22 @@ class PointController extends Controller {
   def index = Action.async {
     implicit request =>
       PointService.listAllPoints map {
-        points => Ok(views.html.index(PointForm.form, points, days, times))
+        points => Ok(views.html.index(PointForm.form, PointFormDays.form, points, days, times))
       }
   }
 
   def addPoints = Action.async {
     implicit request =>
-      PointForm.form.bindFromRequest.fold(
-        errorForm => Future.successful(Ok(views.html.index(errorForm, Seq.empty[Point], days, times))),
+      PointFormDays.form.bindFromRequest.fold(
+        errorForm => Future.successful(BadRequest(views.html.bad())),
         data => {
-          for (d <- days) {
-            for (t <- times) {
-              if (data.subject != null) {
-                val newPoint = Point(0, data.subject, d, data.groupName, data.kind, formatTime(t), data.teacher, data.auditorium)
-                PointService.addPoint(newPoint)
-              }
-            }
+          if (data.mon.subject.isDefined) {
+            val newPoint = Point(0, data.mon.subject.get, "Monday", data.groupName, data.mon.kind.get, java.sql.Time.valueOf("8:00:00"), data.mon.teacher.get, data.mon.auditorium.get)
+            PointService.addPoint(newPoint)
+          }
+          if (data.tue.subject.isDefined) {
+            val newPoint = Point(0, data.tue.subject.get, "Tuesday", data.groupName, data.tue.kind.get, java.sql.Time.valueOf("8:00:00"), data.tue.teacher.get, data.tue.auditorium.get)
+            PointService.addPoint(newPoint)
           }
           PointService.listAllPoints.map(res => Redirect(routes.PointController.index()))
         }
@@ -43,11 +43,5 @@ class PointController extends Controller {
         res => Redirect(routes.PointController.index())
       }
   }
-
-  def formatTime(time: String): java.sql.Time = {
-    val nTime = time + ":00"
-    java.sql.Time.valueOf(nTime)
-  }
-
 
 }

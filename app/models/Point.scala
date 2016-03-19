@@ -15,19 +15,39 @@ import scala.concurrent.Future
 
 case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, teacher: String, auditorium: Int)
 
-case class PointFormData(subject: String, groupName: String, kind: String,
-                         teacher: String, auditorium: Int)
+case class PointFormData(subject: Option[String], kind: Option[String],
+                         teacher: Option[String], auditorium: Option[Int])
+
+case class PointFormDataByDays(groupName: String, mon: PointFormData, tue: PointFormData)//, wed: PointFormData, thur: PointFormData, fri: PointFormData, sat: PointFormData, sund: PointFormData)
+
+case class LessonFormData(time: String, lesson: PointFormData)
+
+case class AllDayFormData(timeLes: String, lesson: LessonFormData)
+
+object PointFormDays {
+  val form = Form(
+    mapping(
+      "groupName"->nonEmptyText,
+      "mon" -> PointForm.form.mapping,
+      "tue" -> PointForm.form.mapping
+     // "wed" -> PointForm.form.mapping,
+    //  "thur" -> PointForm.form.mapping,
+     // "fri" -> PointForm.form.mapping,
+     // "sat" -> PointForm.form.mapping,
+    //  "sund" -> PointForm.form.mapping
+    )(PointFormDataByDays.apply)(PointFormDataByDays.unapply)
+  )
+}
 
 
 object PointForm {
   val form = Form(
-      mapping(
-        "subject" -> text,
-        "groupName" -> text,
-        "kind" -> text,
-        "teacher" -> text,
-        "auditorium" -> number
-      )(PointFormData.apply)(PointFormData.unapply)
+    mapping(
+      "subject" -> optional(text),
+      "kind" -> optional(text),
+      "teacher" -> optional(text),
+      "auditorium" -> optional(number)
+    )(PointFormData.apply)(PointFormData.unapply)
   )
 }
 
