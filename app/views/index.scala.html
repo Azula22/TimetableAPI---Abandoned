@@ -2,18 +2,60 @@
     @main() {
         <form id="point-data-form" role="form" action='@routes.PointController.addPoints()' method="post" class="form-horizontal" align="center" autocomplete="off">
             <input type="text" id="groupName" name="groupName" value="" placeholder="Name of Group" class="form-control input-lg" required>
-            <div>
-                <input type="text" id="mon.subject" name="mon.subject" value="" placeholder="Subject" class="form-control input-lg" >
-                <input type="text" id="mon.kind" name="mon.kind" value="" placeholder="Type" class="form-control input-lg" >
-                <input type="text" id="mon.teacher" name="mon.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
-                <input type="number" id="mon.auditorium" name="mon.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
-            </div>
-            <div>
-                <input type="text" id="tue.subject" name="tue.subject" value="" placeholder="Subject" class="form-control input-lg" >
-                <input type="text" id="tue.kind" name="tue.kind" value="" placeholder="Type" class="form-control input-lg" >
-                <input type="text" id="tue.teacher" name="tue.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
-                <input type="number" id="tue.auditorium" name="tue.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
-            </div>
+            <fieldset>
+                <h3>Monday</h3>
+                <div>
+                    8:00
+                    <input type="text" id="subject" name="mon.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="mon.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="mon.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="mon.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    9:35
+                    <input type="text" id="subject" name="mon.second.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="mon.second.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="mon.second.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="mon.second.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    11:10
+                    <input type="text" id="subject" name="mon.third.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="mon.third.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="mon.third.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="mon.third.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    12:50
+                    <input type="text" id="subject" name="mon.fourth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="mon.fourth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="mon.fourth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="mon.fourth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    14:25
+                    <input type="text" id="subject" name="mon.fifth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="mon.fifth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="mon.fifth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="mon.fifth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    16:00
+                    <input type="text" id="subject" name="mon.sixth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="mon.sixth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="mon.sixth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="mon.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset>
+           @* <fieldset>
+                <h3>Tuesday</h3>
+                <div>
+                    <input type="text" id="tue.subject" name="tue.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="tue.kind" name="tue.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="tue.teacher" name="tue.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="tue.auditorium" name="tue.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset> *@
             <div class="form-actions controls ynt-btn-xlarge">
                 <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
             </div>

@@ -18,27 +18,37 @@ case class Point(id: Long, subject: String, day: String, groupName: String, kind
 case class PointFormData(subject: Option[String], kind: Option[String],
                          teacher: Option[String], auditorium: Option[Int])
 
-case class PointFormDataByDays(groupName: String, mon: PointFormData, tue: PointFormData)//, wed: PointFormData, thur: PointFormData, fri: PointFormData, sat: PointFormData, sund: PointFormData)
+case class PointFormDataByDays(groupName: String, mon: PointFormDataForOneDay, tue: PointFormDataForOneDay, wed: PointFormDataForOneDay, thur: PointFormDataForOneDay, fri: PointFormDataForOneDay, sat: PointFormDataForOneDay, sund:PointFormDataForOneDay)
 
-case class LessonFormData(time: String, lesson: PointFormData)
-
-case class AllDayFormData(timeLes: String, lesson: LessonFormData)
+case class PointFormDataForOneDay(first: PointFormData, second: PointFormData, third: PointFormData, fourth: PointFormData, fifth: PointFormData, sixth: PointFormData)
 
 object PointFormDays {
   val form = Form(
     mapping(
-      "groupName"->nonEmptyText,
-      "mon" -> PointForm.form.mapping,
-      "tue" -> PointForm.form.mapping
-     // "wed" -> PointForm.form.mapping,
-    //  "thur" -> PointForm.form.mapping,
-     // "fri" -> PointForm.form.mapping,
-     // "sat" -> PointForm.form.mapping,
-    //  "sund" -> PointForm.form.mapping
+      "groupName" -> nonEmptyText,
+      "mon" -> PointFormForOneDay.form.mapping,
+      "tue" -> PointFormForOneDay.form.mapping,
+      "wed" -> PointFormForOneDay.form.mapping,
+      "thur" -> PointFormForOneDay.form.mapping,
+      "fri" -> PointFormForOneDay.form.mapping,
+      "sat" -> PointFormForOneDay.form.mapping,
+      "sund" -> PointFormForOneDay.form.mapping
     )(PointFormDataByDays.apply)(PointFormDataByDays.unapply)
   )
 }
 
+object PointFormForOneDay {
+  val form = Form(
+    mapping(
+      "first" -> PointForm.form.mapping,
+      "second" -> PointForm.form.mapping,
+      "third" -> PointForm.form.mapping,
+      "fourth" -> PointForm.form.mapping,
+      "fifth" -> PointForm.form.mapping,
+      "sixth" -> PointForm.form.mapping
+    )(PointFormDataForOneDay.apply)(PointFormDataForOneDay.unapply)
+  )
+}
 
 object PointForm {
   val form = Form(
