@@ -15,29 +15,41 @@ import scala.concurrent.Future
 
 case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, teacher: String, auditorium: Int)
 
-case class PointFormData(subject: Option[String], kind: Option[String],
-                         teacher: Option[String], auditorium: Option[Int])
+case class FormData(subject: Option[String], kind: Option[String],
+                    teacher: Option[String], auditorium: Option[Int])
 
-case class PointFormDataByDays(groupName: String, mon: PointFormDataForOneDay, tue: PointFormDataForOneDay, wed: PointFormDataForOneDay, thur: PointFormDataForOneDay, fri: PointFormDataForOneDay, sat: PointFormDataForOneDay, sund:PointFormDataForOneDay)
+case class FormDataAllDays(groupName: String,
+                           mon: FormDataOneDay,
+                           tue: FormDataOneDay,
+                           wed: FormDataOneDay,
+                           thur: FormDataOneDay,
+                           fri: FormDataOneDay,
+                           sat: FormDataOneDay,
+                           sund:FormDataOneDay)
 
-case class PointFormDataForOneDay(first: PointFormData, second: PointFormData, third: PointFormData, fourth: PointFormData, fifth: PointFormData, sixth: PointFormData)
+case class FormDataOneDay(first: FormData,
+                          second: FormData,
+                          third: FormData,
+                          fourth: FormData,
+                          fifth: FormData,
+                          sixth: FormData)
 
-object PointFormDays {
+object FormAllDays {
   val form = Form(
     mapping(
       "groupName" -> nonEmptyText,
-      "mon" -> PointFormForOneDay.form.mapping,
-      "tue" -> PointFormForOneDay.form.mapping,
-      "wed" -> PointFormForOneDay.form.mapping,
-      "thur" -> PointFormForOneDay.form.mapping,
-      "fri" -> PointFormForOneDay.form.mapping,
-      "sat" -> PointFormForOneDay.form.mapping,
-      "sund" -> PointFormForOneDay.form.mapping
-    )(PointFormDataByDays.apply)(PointFormDataByDays.unapply)
+      "mon" -> FormOneDay.form.mapping,
+      "tue" -> FormOneDay.form.mapping,
+      "wed" -> FormOneDay.form.mapping,
+      "thur" -> FormOneDay.form.mapping,
+      "fri" -> FormOneDay.form.mapping,
+      "sat" -> FormOneDay.form.mapping,
+      "sund" -> FormOneDay.form.mapping
+    )(FormDataAllDays.apply)(FormDataAllDays.unapply)
   )
 }
 
-object PointFormForOneDay {
+object FormOneDay {
   val form = Form(
     mapping(
       "first" -> PointForm.form.mapping,
@@ -46,7 +58,7 @@ object PointFormForOneDay {
       "fourth" -> PointForm.form.mapping,
       "fifth" -> PointForm.form.mapping,
       "sixth" -> PointForm.form.mapping
-    )(PointFormDataForOneDay.apply)(PointFormDataForOneDay.unapply)
+    )(FormDataOneDay.apply)(FormDataOneDay.unapply)
   )
 }
 
@@ -57,7 +69,7 @@ object PointForm {
       "kind" -> optional(text),
       "teacher" -> optional(text),
       "auditorium" -> optional(number)
-    )(PointFormData.apply)(PointFormData.unapply)
+    )(FormData.apply)(FormData.unapply)
   )
 }
 

@@ -1,4 +1,4 @@
-@(pointform: Form[models.PointFormData], pointforms: Form[models.PointFormDataByDays], points: Seq[models.Point], days: Seq[String], times: Seq[String])(implicit request: RequestHeader)
+@(pointform: Form[models.FormData], pointforms: Form[models.FormDataAllDays], points: Seq[models.Point], days: Seq[String], times: Seq[String])(implicit request: RequestHeader)
     @main() {
         <form id="point-data-form" role="form" action='@routes.PointController.addPoints()' method="post" class="form-horizontal" align="center" autocomplete="off">
             <input type="text" id="groupName" name="groupName" value="" placeholder="Name of Group" class="form-control input-lg" required>
@@ -47,15 +47,276 @@
                     <input type="number" id="auditorium" name="mon.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
                 </div>
             </fieldset>
-           @* <fieldset>
+            <fieldset>
                 <h3>Tuesday</h3>
                 <div>
-                    <input type="text" id="tue.subject" name="tue.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
-                    <input type="text" id="tue.kind" name="tue.first.kind" value="" placeholder="Type" class="form-control input-lg" >
-                    <input type="text" id="tue.teacher" name="tue.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
-                    <input type="number" id="tue.auditorium" name="tue.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                    8:00
+                    <input type="text" id="subject" name="tue.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="tue.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="tue.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="tue.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
                 </div>
-            </fieldset> *@
+                <div>
+                    9:35
+                    <input type="text" id="subject" name="tue.second.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="tue.second.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="tue.second.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="tue.second.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    11:10
+                    <input type="text" id="subject" name="tue.third.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="tue.third.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="tue.third.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="tue.third.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    12:50
+                    <input type="text" id="subject" name="tue.fourth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="tue.fourth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="tue.fourth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="tue.fourth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    14:25
+                    <input type="text" id="subject" name="tue.fifth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="tue.fifth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="tue.fifth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="tue.fifth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    16:00
+                    <input type="text" id="subject" name="tue.sixth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="tue.sixth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="tue.sixth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="tue.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset>
+            <fieldset>
+                <h3>Wednesday</h3>
+                <div>
+                    8:00
+                    <input type="text" id="subject" name="wed.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="wed.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="wed.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="wed.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    9:35
+                    <input type="text" id="subject" name="wed.second.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="wed.second.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="wed.second.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="wed.second.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    11:10
+                    <input type="text" id="subject" name="wed.third.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="wed.third.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="wed.third.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="wed.third.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    12:50
+                    <input type="text" id="subject" name="wed.fourth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="wed.fourth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="wed.fourth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="wed.fourth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    14:25
+                    <input type="text" id="subject" name="wed.fifth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="wed.fifth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="wed.fifth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="wed.fifth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    16:00
+                    <input type="text" id="subject" name="wed.sixth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="wed.sixth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="wed.sixth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="wed.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset>
+            <fieldset>
+                <h3>Thursday</h3>
+                <div>
+                    8:00
+                    <input type="text" id="subject" name="thur.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="thur.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="thur.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="thur.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    9:35
+                    <input type="text" id="subject" name="thur.second.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="thur.second.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="thur.second.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="thur.second.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    11:10
+                    <input type="text" id="subject" name="thur.third.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="thur.third.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="thur.third.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="thur.third.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    12:50
+                    <input type="text" id="subject" name="thur.fourth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="thur.fourth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="thur.fourth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="thur.fourth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    14:25
+                    <input type="text" id="subject" name="thur.fifth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="thur.fifth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="thur.fifth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="thur.fifth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    16:00
+                    <input type="text" id="subject" name="thur.sixth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="thur.sixth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="thur.sixth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="thur.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset>
+            <fieldset>
+                <h3>Friday</h3>
+                <div>
+                    8:00
+                    <input type="text" id="subject" name="fri.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="fri.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="fri.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="fri.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    9:35
+                    <input type="text" id="subject" name="fri.second.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="fri.second.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="fri.second.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="fri.second.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    11:10
+                    <input type="text" id="subject" name="fri.third.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="fri.third.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="fri.third.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="fri.third.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    12:50
+                    <input type="text" id="subject" name="fri.fourth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="fri.fourth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="fri.fourth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="fri.fourth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    14:25
+                    <input type="text" id="subject" name="fri.fifth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="fri.fifth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="fri.fifth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="fri.fifth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    16:00
+                    <input type="text" id="subject" name="fri.sixth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="fri.sixth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="fri.sixth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="fri.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset>
+            <fieldset>
+                <h3>Saturday</h3>
+                <div>
+                    8:00
+                    <input type="text" id="subject" name="sat.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sat.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sat.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sat.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    9:35
+                    <input type="text" id="subject" name="sat.second.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sat.second.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sat.second.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sat.second.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    11:10
+                    <input type="text" id="subject" name="sat.third.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sat.third.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sat.third.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sat.third.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    12:50
+                    <input type="text" id="subject" name="sat.fourth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sat.fourth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sat.fourth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sat.fourth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    14:25
+                    <input type="text" id="subject" name="sat.fifth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sat.fifth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sat.fifth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sat.fifth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    16:00
+                    <input type="text" id="subject" name="sat.sixth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sat.sixth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sat.sixth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sat.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset>
+            <fieldset>
+                <h3>Sunday</h3>
+                <div>
+                    8:00
+                    <input type="text" id="subject" name="sund.first.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sund.first.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sund.first.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sund.first.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    9:35
+                    <input type="text" id="subject" name="sund.second.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sund.second.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sund.second.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sund.second.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    11:10
+                    <input type="text" id="subject" name="sund.third.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sund.third.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sund.third.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sund.third.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    12:50
+                    <input type="text" id="subject" name="sund.fourth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sund.fourth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sund.fourth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sund.fourth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    14:25
+                    <input type="text" id="subject" name="sund.fifth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sund.fifth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sund.fifth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sund.fifth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+                <div>
+                    16:00
+                    <input type="text" id="subject" name="sund.sixth.subject" value="" placeholder="Subject" class="form-control input-lg" >
+                    <input type="text" id="kind" name="sund.sixth.kind" value="" placeholder="Type" class="form-control input-lg" >
+                    <input type="text" id="teacher" name="sund.sixth.teacher" value="" placeholder="Teacher" class="form-control input-lg" >
+                    <input type="number" id="auditorium" name="sund.sixth.auditorium" value="" placeholder="Auditorium" class="form-control input-lg" >
+                </div>
+            </fieldset>
             <div class="form-actions controls ynt-btn-xlarge">
                 <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
             </div>
