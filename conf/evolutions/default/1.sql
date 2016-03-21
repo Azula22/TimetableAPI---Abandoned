@@ -11,6 +11,7 @@ CREATE TABLE Points (
   kind       TEXT    NOT NULL,
   teacher    TEXT    NOT NULL,
   auditorium INTEGER NOT NULL,
+  pair       BOOL    NOT NULL,
   PRIMARY KEY (id)
 );
 

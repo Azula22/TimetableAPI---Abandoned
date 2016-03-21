@@ -73,40 +73,71 @@ object Helper {
 
   object AddSubjectOneDay {
     def addFirst(day: String, data: FormDataOneDay, group: String): Unit = {
-      if (data.first.subject.isDefined) {
-        val newPoint = Point(0, data.first.subject.get, day, group, data.first.kind.get, java.sql.Time.valueOf("8:00:00"), data.first.teacher.get, data.first.auditorium.get)
-      PointService.addPoint(newPoint)
-    }}
+      if (data.first.pair.subject.isDefined) {
+        val newPoint = Point(0, data.first.pair.subject.get, day, group, data.first.pair.kind.get, java.sql.Time.valueOf("8:00:00"), data.first.pair.teacher.get, data.first.pair.auditorium.get, pair = true)
+        PointService.addPoint(newPoint)
+      }
+
+      if (data.first.odd.subject.isDefined) {
+        val newPoint = Point(0, data.first.odd.subject.get, day, group, data.first.odd.kind.get, java.sql.Time.valueOf("8:00:00"), data.first.odd.teacher.get, data.first.odd.auditorium.get, pair = false)
+        PointService.addPoint(newPoint)
+      }
+    }
 
     def addSecond(day: String, data: FormDataOneDay, group: String): Unit = {
-      if (data.second.subject.isDefined) {
-      val newPoint = Point(0, data.second.subject.get, day, group, data.second.kind.get, java.sql.Time.valueOf("9:35:00"), data.second.teacher.get, data.second.auditorium.get)
-      PointService.addPoint(newPoint)
-    }}
+      if (data.second.pair.subject.isDefined) {
+        val newPoint = Point(0, data.second.pair.subject.get, day, group, data.second.pair.kind.get, java.sql.Time.valueOf("9:35:00"), data.second.pair.teacher.get, data.second.pair.auditorium.get, pair = true)
+        PointService.addPoint(newPoint)
+      }
+      if (data.second.odd.subject.isDefined) {
+        val newPoint = Point(0, data.second.odd.subject.get, day, group, data.second.odd.kind.get, java.sql.Time.valueOf("9:35:00"), data.second.odd.teacher.get, data.second.odd.auditorium.get, pair = false)
+        PointService.addPoint(newPoint)
+      }
+    }
 
     def addThird(day: String, data: FormDataOneDay, group: String): Unit = {
-      if (data.third.subject.isDefined) {
-        val newPoint = Point(0, data.third.subject.get, day, group, data.third.kind.get, java.sql.Time.valueOf("11:10:00"), data.third.teacher.get, data.third.auditorium.get)
-       PointService.addPoint(newPoint)
-    }}
+      if (data.third.pair.subject.isDefined) {
+        val newPoint = Point(0, data.third.pair.subject.get, day, group, data.third.pair.kind.get, java.sql.Time.valueOf("11:10:00"), data.third.pair.teacher.get, data.third.pair.auditorium.get, pair = true)
+        PointService.addPoint(newPoint)
+      }
+      if (data.third.odd.subject.isDefined) {
+        val newPoint = Point(0, data.third.odd.subject.get, day, group, data.third.odd.kind.get, java.sql.Time.valueOf("11:10:00"), data.third.odd.teacher.get, data.third.odd.auditorium.get, pair = false)
+        PointService.addPoint(newPoint)
+      }
+    }
 
     def addFourth(day: String, data: FormDataOneDay, group: String): Unit = {
-      if (data.fourth.subject.isDefined) {
-        val newPoint = Point(0, data.fourth.subject.get, day, group, data.fourth.kind.get, java.sql.Time.valueOf("12:50:00"), data.fourth.teacher.get, data.fourth.auditorium.get)
-      PointService.addPoint(newPoint)
-    }}
+      if (data.fourth.pair.subject.isDefined) {
+        val newPoint = Point(0, data.fourth.pair.subject.get, day, group, data.fourth.pair.kind.get, java.sql.Time.valueOf("12:50:00"), data.fourth.pair.teacher.get, data.fourth.pair.auditorium.get, pair = true)
+        PointService.addPoint(newPoint)
+      }
+      if (data.fourth.odd.subject.isDefined) {
+        val newPoint = Point(0, data.fourth.odd.subject.get, day, group, data.fourth.odd.kind.get, java.sql.Time.valueOf("12:50:00"), data.fourth.odd.teacher.get, data.fourth.odd.auditorium.get, pair = false)
+        PointService.addPoint(newPoint)
+      }
+    }
 
     def addFifth(day: String, data: FormDataOneDay, group: String): Unit = {
-      if (data.fifth.subject.isDefined) {
-        val newPoint = Point(0, data.fifth.subject.get, day, group, data.fifth.kind.get, java.sql.Time.valueOf("14:25:00"), data.fifth.teacher.get, data.fifth.auditorium.get)
+      if (data.fifth.pair.subject.isDefined) {
+        val newPoint = Point(0, data.fifth.pair.subject.get, day, group, data.fifth.pair.kind.get, java.sql.Time.valueOf("14:25:00"), data.fifth.pair.teacher.get, data.fifth.pair.auditorium.get, pair = true)
         PointService.addPoint(newPoint)
-    }}
+      }
+      if (data.fifth.odd.subject.isDefined) {
+        val newPoint = Point(0, data.fifth.pair.subject.get, day, group, data.fifth.pair.kind.get, java.sql.Time.valueOf("14:25:00"), data.fifth.pair.teacher.get, data.fifth.pair.auditorium.get, pair = false)
+        PointService.addPoint(newPoint)
+      }
+    }
 
     def addSixth(day: String, data: FormDataOneDay, group: String): Unit = {
-      if (data.sixth.subject.isDefined) {
-        val newPoint = Point(0, data.sixth.subject.get, day, group, data.sixth.kind.get, java.sql.Time.valueOf("16:00:00"), data.sixth.teacher.get, data.sixth.auditorium.get)
+      if (data.sixth.pair.subject.isDefined) {
+        val newPoint = Point(0, data.sixth.pair.subject.get, day, group, data.sixth.pair.kind.get, java.sql.Time.valueOf("16:00:00"), data.sixth.pair.teacher.get, data.sixth.pair.auditorium.get, pair = true)
         PointService.addPoint(newPoint)
-    }}
+      }
+      if (data.sixth.odd.subject.isDefined) {
+        val newPoint = Point(0, data.sixth.odd.subject.get, day, group, data.sixth.odd.kind.get, java.sql.Time.valueOf("16:00:00"), data.sixth.odd.teacher.get, data.sixth.odd.auditorium.get, pair = false)
+        PointService.addPoint(newPoint)
+      }
+    }
   }
 
 }

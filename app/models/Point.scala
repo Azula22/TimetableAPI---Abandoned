@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
-case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, teacher: String, auditorium: Int)
+case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, teacher: String, auditorium: Int, pair: Boolean)
 
 case class FormData(subject: Option[String], kind: Option[String],
                     teacher: Option[String], auditorium: Option[Int])
@@ -25,14 +25,16 @@ case class FormDataAllDays(groupName: String,
                            thur: FormDataOneDay,
                            fri: FormDataOneDay,
                            sat: FormDataOneDay,
-                           sund:FormDataOneDay)
+                           sund: FormDataOneDay)
 
-case class FormDataOneDay(first: FormData,
-                          second: FormData,
-                          third: FormData,
-                          fourth: FormData,
-                          fifth: FormData,
-                          sixth: FormData)
+case class FormDataOneDay(first: PairOddData,
+                          second: PairOddData,
+                          third: PairOddData,
+                          fourth: PairOddData,
+                          fifth: PairOddData,
+                          sixth: PairOddData)
+
+case class PairOddData(pair: FormData, odd: FormData)
 
 object FormAllDays {
   val form = Form(
@@ -52,12 +54,12 @@ object FormAllDays {
 object FormOneDay {
   val form = Form(
     mapping(
-      "first" -> PointForm.form.mapping,
-      "second" -> PointForm.form.mapping,
-      "third" -> PointForm.form.mapping,
-      "fourth" -> PointForm.form.mapping,
-      "fifth" -> PointForm.form.mapping,
-      "sixth" -> PointForm.form.mapping
+      "first" -> PairOddForm.form.mapping,
+      "second" -> PairOddForm.form.mapping,
+      "third" -> PairOddForm.form.mapping,
+      "fourth" -> PairOddForm.form.mapping,
+      "fifth" -> PairOddForm.form.mapping,
+      "sixth" -> PairOddForm.form.mapping
     )(FormDataOneDay.apply)(FormDataOneDay.unapply)
   )
 }
@@ -70,6 +72,15 @@ object PointForm {
       "teacher" -> optional(text),
       "auditorium" -> optional(number)
     )(FormData.apply)(FormData.unapply)
+  )
+}
+
+object PairOddForm{
+  val form = Form(
+    mapping(
+      "pair"->PointForm.form.mapping,
+      "odd"->PointForm.form.mapping
+    )(PairOddData.apply)(PairOddData.unapply)
   )
 }
 
@@ -90,7 +101,9 @@ class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
 
   def auditorium = column[Int]("auditorium")
 
-  override def * = (id, subject, day, groupName, kind, start, teacher, auditorium) <>(Point.tupled, Point.unapply)
+  def pair = column[Boolean]("pair")
+
+  override def * = (id, subject, day, groupName, kind, start, teacher, auditorium, pair) <>(Point.tupled, Point.unapply)
 }
 
 object Points {
