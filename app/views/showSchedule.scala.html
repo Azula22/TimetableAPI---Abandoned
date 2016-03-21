@@ -10,35 +10,37 @@
     </form>
 
     <div class="point-display">
-        @if(points!=null){
-        <fieldset>
-            <table cellspacing="20">
-                <tr>
-                    <td>Subject</td>
-                    <td>Name of group</td>
-                    <td>Start</td>
-                    <td>Type</td>
-                    <td>Teacher</td>
-                    <td>Auditorium</td>
-                </tr>
-                @for(d <- days) {
-                    <tr><th>@d</th></tr>
-                    @for(point <- points
-                        if point.day == d
-                    ) {
-                        <tr>
+        @if(points != null) {
+            <fieldset>
+                <table cellspacing="20">
+                    <tr>
+                        <td>Pair</td>
+                        <td>Subject</td>
+                        <td>Name of group</td>
+                        <td>Start</td>
+                        <td>Type</td>
+                        <td>Teacher</td>
+                        <td>Auditorium</td>
+                    </tr>
+                    @for(d <- days) {
+                        <tr><th>@d</th></tr>
+                        @for(point <- points
+                            if point.day == d
+                        ) {<tr>
+                            @point.pair match {
+                                case true => {<td>Pair</td>}
+                                case false =>{<td>Odd</td>}
+                            }
                             <td>@point.subject</td>
                             <td>@point.groupName</td>
                             <td>@point.start</td>
                             <td>@point.kind</td>
                             <td>@point.teacher</td>
                             <td>@point.auditorium</td>
-                            <td>@point.pair</td>
-                        </tr>
+                        </tr>}
                     }
-                }
-                }
-            </table>
-        </fieldset>
+                    }
+    </table>
+    </fieldset>
     </div>
 }
