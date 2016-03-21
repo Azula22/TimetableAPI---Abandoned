@@ -10,6 +10,7 @@
     </form>
 
     <div class="point-display">
+        @if(points!=null){
         <fieldset>
             <table cellspacing="20">
                 <tr>
@@ -34,6 +35,7 @@
                             <td>@point.auditorium</td>
                         </tr>
                     }
+                }
                 }
             </table>
         </fieldset>

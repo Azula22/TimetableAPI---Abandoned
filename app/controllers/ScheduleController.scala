@@ -17,7 +17,7 @@ class ScheduleController extends Controller {
   def indexDefault = Action.async {
     implicit request =>
       PointService.listAllPoints.map {
-        points => Ok(views.html.showSchedule(GroupForm.form, points, days))
+        points => Ok(views.html.showSchedule(GroupForm.form, null, days))
       }
   }
 
