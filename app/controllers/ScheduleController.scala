@@ -24,14 +24,14 @@ class ScheduleController extends Controller {
   def index(data: String) = Action.async {
     implicit request =>
       PointService.group(data).map {
-        points => Ok(views.html.showSchedule(GroupForm.form, points, days))
+        points => Ok(views.html.showSchedule(GroupForm.form, points.sortBy(_.start.toLocalTime), days))
       }
   }
 
   def checkGroup = Action.async {
     implicit request =>
       GroupForm.form.bindFromRequest.fold(
-        errorForm => Future.successful(Ok(views.html.showSchedule(errorForm, Seq.empty[Point], days))),
+        errorForm => Future.successful(Ok(views.html.bad())),
         data => {
           PointService.listAllPoints.map(
             res => Redirect(routes.ScheduleController.index(data.nameGroup)))
