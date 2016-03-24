@@ -12,7 +12,6 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-
 case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, teacher: String, auditorium: Int, pair: Boolean)
 
 case class FormData(subject: Option[String], kind: Option[String],
@@ -25,28 +24,62 @@ case class FormDataAllDays(groupName: String,
                            thur: FormDataOneDay,
                            fri: FormDataOneDay,
                            sat: FormDataOneDay,
-                           sund: FormDataOneDay)
+                           sund: FormDataOneDay) {
+  def getDay(day: String): Option[FormDataOneDay] = {
+    day match {
+      case "Monday" => Some(this.mon)
+      case "Tuesday" => Some(this.tue)
+      case "Wednesday" => Some(this.wed)
+      case "Thursday" => Some(this.thur)
+      case "Friday" => Some(this.fri)
+      case "Saturday" => Some(this.sat)
+      case "Sunday" => Some(this.sund)
+      case _ => None
+    }
+  }
+}
 
 case class FormDataOneDay(first: PairOddData,
                           second: PairOddData,
                           third: PairOddData,
                           fourth: PairOddData,
                           fifth: PairOddData,
-                          sixth: PairOddData)
+                          sixth: PairOddData) {
+  def getPair(pair: String): Option[PairOddData] = {
+    pair match {
+      case "8:00" => Some(this.first)
+      case "9:35" => Some(this.second)
+      case "11:10" => Some(this.third)
+      case "12:50" => Some(this.fourth)
+      case "14:25" => Some(this.fifth)
+      case "16:00" => Some(this.sixth)
+      case _ => None
+    }
+  }
+}
 
-case class PairOddData(pair: FormData, odd: FormData)
+case class PairOddData(pair: FormData, odd: FormData) {
+  def getPairOrOdd(maVal: Int): Option[FormData]  = {
+    maVal match {
+      case 1 => Some(this.odd)
+      case 2 => Some(this.pair)
+      case _ => None
+    }
+  }
+}
+
 
 object FormAllDays {
   val form = Form(
     mapping(
       "groupName" -> nonEmptyText,
-      "mon" -> FormOneDay.form.mapping,
-      "tue" -> FormOneDay.form.mapping,
-      "wed" -> FormOneDay.form.mapping,
-      "thur" -> FormOneDay.form.mapping,
-      "fri" -> FormOneDay.form.mapping,
-      "sat" -> FormOneDay.form.mapping,
-      "sund" -> FormOneDay.form.mapping
+      "Monday" -> FormOneDay.form.mapping,
+      "Tuesday" -> FormOneDay.form.mapping,
+      "Wednesday" -> FormOneDay.form.mapping,
+      "Thursday" -> FormOneDay.form.mapping,
+      "Friday" -> FormOneDay.form.mapping,
+      "Saturday" -> FormOneDay.form.mapping,
+      "Sunday" -> FormOneDay.form.mapping
     )(FormDataAllDays.apply)(FormDataAllDays.unapply)
   )
 }
@@ -75,11 +108,11 @@ object PointForm {
   )
 }
 
-object PairOddForm{
+object PairOddForm {
   val form = Form(
     mapping(
-      "pair"->PointForm.form.mapping,
-      "odd"->PointForm.form.mapping
+      "pair" -> PointForm.form.mapping,
+      "odd" -> PointForm.form.mapping
     )(PairOddData.apply)(PairOddData.unapply)
   )
 }
