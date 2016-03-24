@@ -59,10 +59,10 @@ case class FormDataOneDay(first: PairOddData,
 }
 
 case class PairOddData(pair: FormData, odd: FormData) {
-  def getPairOrOdd(maVal: Int): Option[FormData]  = {
+  def getPairOrOdd(maVal: String): Option[FormData]  = {
     maVal match {
-      case 1 => Some(this.odd)
-      case 2 => Some(this.pair)
+      case "odd" => Some(this.odd)
+      case "pair" => Some(this.pair)
       case _ => None
     }
   }
