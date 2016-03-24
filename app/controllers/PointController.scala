@@ -31,7 +31,7 @@ class PointController extends Controller {
               for (oN <- oddNot) {
                 val myLesson = data.getDay(d).get.getPair(t).get.getPairOrOdd(oN).get
                 if (myLesson.subject.isDefined) {
-                  val newPoint = Point(0, myLesson.subject.get, d, data.groupName, myLesson.kind.get, java.sql.Time.valueOf(t+":00"), myLesson.teacher.get, myLesson.auditorium.get, if(oN=="pair") true else false)
+                  val newPoint = Point(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"), java.sql.Time.valueOf(t+":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), if(oN=="pair") true else false)
                   PointService.addPoint(newPoint)
                 }
               }
