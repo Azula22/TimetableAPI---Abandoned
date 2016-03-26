@@ -8,4 +8,4 @@ target
 /RUNNING_PID
 /project
 /.sbtserver
-/public
+public
