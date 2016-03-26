@@ -3,8 +3,9 @@
     @main() {
         <form id="point-data-form" role="form" action='@routes.PointController.addPoints()' method="post" class="form-horizontal" align="center" autocomplete="off">
             <input type="text" id="groupName" name="groupName" value="" placeholder="Name of Group" class="form-control input-lg" required>
-            <fieldset>
+
             @for(d <- days) {
+                <fieldset>
                 <h5>@d</h5>
                 @for(tF <- timesForUs) {
                     <h5>@tF</h5>
@@ -14,40 +15,13 @@
                         <input type="text" id="kind" name=@(d + "." + tF + "." + oN + "." + "kind") value="" placeholder="Type" class="form-control input-lg" >
                         <input type="text" id="teacher" name=@(d + "." + tF + "." + oN + "." + "teacher") value="" placeholder="Teacher" class="form-control input-lg" >
                         <input type="number" id="auditorium" name=@(d + "." + tF + "." + oN + "." + "auditorium") value="" placeholder="Auditorium" class="form-control input-lg" >
-                        }
+                    }
                 }
+                </fieldset>
             }
-            </fieldset>
+
             <div class="form-actions controls ynt-btn-xlarge">
                 <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
             </div>
         </form>
-
-        <div class="point-display">
-            <fieldset>
-                <table cellspacing="20">
-                    <tr>
-                        <th>Subject</th>
-                        <th>Day</th>
-                        <th>Name of group</th>
-                        <th>Start</th>
-                        <th>Type</th>
-                        <th>Teacher</th>
-                        <th>Auditorium</th>
-                    </tr>
-                    @for(point <- points) {
-                        <tr>
-                            <td>@point.subject</td>
-                            <td>@point.day</td>
-                            <td>@point.groupName</td>
-                            <td>@point.start</td>
-                            <td>@point.kind</td>
-                            <td>@point.teacher</td>
-                            <td>@point.auditorium</td>
-                            <td><a href="@routes.PointController.deletePoint(point.id) ">delete</a></td>
-                        </tr>
-                    }
-                </table>
-            </fieldset>
-        </div>
-    }
+}

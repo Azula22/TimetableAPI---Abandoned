@@ -42,6 +42,10 @@ class PointController extends Controller {
       )
   }
 
+  def reverseOddNotToBoolean(oddNot: String): Boolean = {
+    if(oddNot=="odd") false else true
+  }
+
   def deletePoint(id: Long) = Action.async {
     implicit request =>
       PointService.deletePoint(id) map {

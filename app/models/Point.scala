@@ -168,5 +168,4 @@ object Points {
   def getTeacher(teacher: String): Future[Seq[Point]] = {
     dbConfig.db.run(points.filter(_.teacher === teacher).result)
   }
-
 }
