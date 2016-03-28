@@ -59,7 +59,7 @@ case class FormDataOneDay(first: PairOddData,
 }
 
 case class PairOddData(pair: FormData, odd: FormData) {
-  def getPairOrOdd(maVal: String): Option[FormData]  = {
+  def getPairOrOdd(maVal: String): Option[FormData] = {
     maVal match {
       case "odd" => Some(this.odd)
       case "pair" => Some(this.pair)
@@ -140,6 +140,7 @@ class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
 }
 
 object Points {
+
   val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
   val points = TableQuery[PointTableDef]
 
@@ -147,6 +148,14 @@ object Points {
     dbConfig.db.run(points += point).map(res => "Point successfully added").recover {
       case ex: Exception => ex.getCause.getMessage
     }
+  }
+
+  def checkExistance(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Point]] = {
+    dbConfig.db.run(points.filter(p => p.groupName === groupName && p.day === day && p.start === time && p.pair === pair).result.headOption)
+  }
+
+  def alterPoint(point: Point, name: String, kind: String, teacher: String, auditorium: Int): Future[String] = {
+    dbConfig.db.run(points.filter(_.id === point.id).map(p=>(p.subject, p.kind, p.teacher, p.auditorium)).update((name, kind, teacher, auditorium)).map(res=>"Point successfully updated"))
   }
 
   def delete(id: Long): Future[Int] = {

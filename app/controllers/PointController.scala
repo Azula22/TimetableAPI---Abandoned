@@ -12,7 +12,7 @@ class PointController extends Controller {
   val days: Seq[String] = Seq("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
   val timesForDisplaying: Seq[String] = Seq("8:00", "9:35", "11:10", "12:50", "14:25", "16:00")
   val oddNot: Seq[String] = Seq("odd", "pair")
-    val timesForUsing: Seq[String] = Seq("first", "second", "third", "fourth", "fifth", "sixth")
+  val timesForUsing: Seq[String] = Seq("first", "second", "third", "fourth", "fifth", "sixth")
 
   def index = Action.async {
     implicit request =>
@@ -31,19 +31,24 @@ class PointController extends Controller {
               for (oN <- oddNot) {
                 val myLesson = data.getDay(d).get.getPair(t).get.getPairOrOdd(oN).get
                 if (myLesson.subject.isDefined) {
-                  val newPoint = Point(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"), java.sql.Time.valueOf(t+":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), if(oN=="pair") true else false)
-                  PointService.addPoint(newPoint)
+                  PointService.checkExistance(data.groupName, d, java.sql.Time.valueOf(t + ":00"), reverseOddNotToBoolean(oN)).map(p =>
+                    PointService.alterPoint(p.get, myLesson.subject.get, myLesson.kind.getOrElse("-"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0))).recover {
+                    case _ => {
+                      val newPoint = Point(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"), java.sql.Time.valueOf(t + ":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), if (oN == "pair") true else false)
+                      PointService.addPoint(newPoint)
+                    }
+                  }
                 }
               }
             }
           }
-          PointService.listAllPoints.map(res => Redirect(routes.PointController.index()))
         }
       )
+      PointService.listAllPoints.map(res => Redirect(routes.PointController.index()))
   }
 
   def reverseOddNotToBoolean(oddNot: String): Boolean = {
-    if(oddNot=="odd") false else true
+    if (oddNot == "odd") false else true
   }
 
   def deletePoint(id: Long) = Action.async {

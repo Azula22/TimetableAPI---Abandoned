@@ -1,11 +1,17 @@
 package services
 
+import java.sql.Time
+
 import models.{Points, Point}
 
 import scala.concurrent.Future
 
 
 object PointService {
+  def alterPoint(point: Point, name: String, kind: String, teacher: String, auditorium: Int): Future[String] = {
+    Points.alterPoint(point, name, kind, teacher, auditorium)
+  }
+
 
   def addPoint(point: Point): Future[String] = {
     Points.add(point)
@@ -27,7 +33,11 @@ object PointService {
     Points.getGroup(group)
   }
 
-  def teacher(teacher:String):Future[Seq[Point]] = {
+  def teacher(teacher: String): Future[Seq[Point]] = {
     Points.getTeacher(teacher)
+  }
+
+  def checkExistance(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Point]] = {
+    Points.checkExistance(groupName, day, time, pair)
   }
 }
