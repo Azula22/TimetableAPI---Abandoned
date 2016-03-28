@@ -26,13 +26,21 @@ class PointController extends Controller {
       FormAllDays.form.bindFromRequest.fold(
         errorForm => Future.successful(BadRequest(views.html.bad())),
         data => {
+
+          //Cycles for getting to each point separately
           for (d <- days) {
             for (t <- timesForDisplaying) {
               for (oN <- oddNot) {
+
+                //here we have single point
                 val myLesson = data.getDay(d).get.getPair(t).get.getPairOrOdd(oN).get
                 if (myLesson.subject.isDefined) {
+
+                  //check if here was already some subject, if was - we alter it's data with new inserted one
                   PointService.checkExistance(data.groupName, d, java.sql.Time.valueOf(t + ":00"), reverseOddNotToBoolean(oN)).map(p =>
                     PointService.alterPoint(p.get, myLesson.subject.get, myLesson.kind.getOrElse("-"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0))).recover {
+
+                    //if wasn't - create new point
                     case _ => {
                       val newPoint = Point(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"), java.sql.Time.valueOf(t + ":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), if (oN == "pair") true else false)
                       PointService.addPoint(newPoint)
