@@ -10,12 +10,12 @@
         </div>
     </form>
     <form>
-        <div class="col-md-7">
+        <div >
             @if(points != null) {
                 <fieldset>
-                    <table cellspacing="20" class="table table-hover table-bordered table-condensed">
+                    <table cellspacing="20">
                         <tr>
-                            <td>Day</td>
+                          @*  <td>Day</td>*@
                             <td>Pair</td>
                             <td>Subject</td>
                             <td>Start</td>
@@ -23,8 +23,9 @@
                             <td>Teacher</td>
                             <td>Auditorium</td>
                         </tr>
-                        @for(d <- days) {
-                            <tr><td id="dayAtHTML" rowspan="12">@d</td>
+                        @for(d <- days){
+                            <tr>@*<td>@d</td>@*@
+                            @d
                                 @for(point <- points
                                     if point.day == d
                                 ) {

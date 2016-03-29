@@ -32,20 +32,8 @@ class PointController extends Controller {
             for (t <- timesForDisplaying) {
               for (oN <- oddNot) {
 
-                //here we have single point
-                val myLesson = data.getDay(d).get.getPair(t).get.getPairOrOdd(oN).get
-                if (myLesson.subject.isDefined) {
-
-                  //check if here was already some subject, if was - we alter it's data with new inserted one
-                  PointService.checkExistance(data.groupName, d, java.sql.Time.valueOf(t + ":00"), reverseOddNotToBoolean(oN)).map(p =>
-                    PointService.alterPoint(p.get, myLesson.subject.get, myLesson.kind.getOrElse("-"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0))).recover {
-
-                    //if wasn't - create new point
-                    case _ => {
-                      val newPoint = Point(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"), java.sql.Time.valueOf(t + ":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), if (oN == "pair") true else false)
-                      PointService.addPoint(newPoint)
-                    }
-                  }
+                if (subjectIsDefined(d, t, oN, data)) {
+                  addThisSubject(data, d, t, oN)
                 }
               }
             }
@@ -54,6 +42,23 @@ class PointController extends Controller {
       )
       PointService.listAllPoints.map(res => Redirect(routes.PointController.index()))
   }
+
+  def subjectIsDefined(d: String, t: String, oN: String, data: FormDataAllDays): Boolean = {
+    val myLesson = data.getDay(d).get.getPair(t).get.getPairOrOdd(oN).get
+    if (myLesson.subject.isDefined) true else false
+  }
+
+  def addThisSubject(data: FormDataAllDays, d: String, t: String, oN: String) = {
+    val myLesson = data.getDay(d).get.getPair(t).get.getPairOrOdd(oN).get
+    PointService.checkExistance(data.groupName, d, java.sql.Time.valueOf(t + ":00"), reverseOddNotToBoolean(oN)).map(p =>
+      PointService.alterPoint(p.get, myLesson.subject.get, myLesson.kind.getOrElse("-"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0))).recover {
+      case _ => {
+        val newPoint = Point(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"), java.sql.Time.valueOf(t + ":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), if (oN == "pair") true else false)
+        PointService.addPoint(newPoint)
+      }
+    }
+  }
+
 
   def reverseOddNotToBoolean(oddNot: String): Boolean = {
     if (oddNot == "odd") false else true
