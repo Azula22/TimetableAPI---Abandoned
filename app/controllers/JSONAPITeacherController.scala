@@ -52,5 +52,4 @@ class JSONAPITeacherController extends Controller{
         }
       )
   }
-
 }

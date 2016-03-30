@@ -11,20 +11,17 @@ import scala.concurrent.Future
 
 class ScheduleController extends Controller {
 
-  val days: Seq[String] = Seq("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-
-
   def indexDefault = Action.async {
     implicit request =>
       PointService.listAllPoints.map {
-        points => Ok(views.html.showSchedule(GroupForm.form, null, days))
+        points => Ok(views.html.showSchedule(GroupForm.form, null, DataHelper.days))
       }
   }
 
   def index(data: String) = Action.async {
     implicit request =>
       PointService.group(data).map {
-        points => Ok(views.html.showSchedule(GroupForm.form, points.sortBy(_.start.toLocalTime), days))
+        points => Ok(views.html.showSchedule(GroupForm.form, points.sortBy(_.start.toLocalTime), DataHelper.days))
       }
   }
 
