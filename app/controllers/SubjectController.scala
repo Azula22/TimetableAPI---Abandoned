@@ -11,7 +11,7 @@ import scala.concurrent.Future
 class SubjectController extends Controller {
 
 
-  def index = Action.async {
+  def startPage = Action.async {
     implicit request =>
       SubjectService.getAllSubjects map {
         points => Ok(views.html.index(SubjectForm.form, FormAllDays.form, points, days,
@@ -38,7 +38,7 @@ class SubjectController extends Controller {
           }
         }
       )
-      SubjectService.getAllSubjects.map(res => Redirect(routes.SubjectController.index()))
+      SubjectService.getAllSubjects.map(res => Redirect(routes.SubjectController.startPage()))
   }
 
   def getSubjectByDayTimeAndOddNot(d: String, t: String, oN: String, data: FormDataAllDays): FormData = {
@@ -46,7 +46,7 @@ class SubjectController extends Controller {
   }
 
   def idSubjectDefined(d: String, t: String, oN: String, data: FormDataAllDays): Boolean = {
-    if (getSubjectByDayTimeAndOddNot(d, t, oN, data).subject.isDefined) true else false
+    getSubjectByDayTimeAndOddNot(d, t, oN, data).subject.isDefined
   }
 
   def addThisSubject(data: FormDataAllDays, d: String, t: String, oN: String) = {
@@ -72,7 +72,7 @@ class SubjectController extends Controller {
   def deleteSubject(id: Long) = Action.async {
     implicit request =>
       SubjectService.deleteSubjectByID(id) map {
-        res => Redirect(routes.SubjectController.index())
+        res => Redirect(routes.SubjectController.startPage())
       }
   }
 

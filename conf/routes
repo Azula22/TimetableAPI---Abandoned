@@ -3,7 +3,7 @@
 # ~~~~
 
 #For all schedule
-GET         /schedule                 controllers.SubjectController.index
+GET         /schedule                 controllers.SubjectController.startPage
 POST        /schedule/add             controllers.SubjectController.addSubjects
 GET         /schedule/delete          controllers.SubjectController.deleteSubject(id: Long)
 
