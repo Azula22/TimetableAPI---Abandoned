@@ -133,13 +133,13 @@ class SubjectTableDef(tag: Tag) extends Table[Subject](tag, "SUBJECTS") {
 
   def start = column[Time]("START")
 
-  def oddNot = column[Boolean]("ODDNOT")
+  def isOdd = column[Boolean]("IS_ODD")
 
   def kind = column[String]("KIND")
 
-  def auditorium = column[Int]("auditorium")
+  def auditorium = column[Int]("AUDITORIUM")
 
-  override def * = (id, name, groupID, faculty, teacher, day, start, oddNot, kind, auditorium) <>(Subject.tupled, Subject.unapply)
+  override def * = (id, name, groupID, faculty, teacher, day, start, isOdd, kind, auditorium) <>(Subject.tupled, Subject.unapply)
 }
 
 object Subjects {
@@ -154,7 +154,7 @@ object Subjects {
   }
 
   def checkExistance(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Subject]] = {
-    dbConfig.db.run(subjects.filter(p => p.name === groupName && p.day === day && p.start === time && p.oddNot === pair).result.headOption)
+    dbConfig.db.run(subjects.filter(p => p.name === groupName && p.day === day && p.start === time && p.isOdd === pair).result.headOption)
   }
 
   def updateSubject(subject: Subject, name: String, kind: String, teacher: String, auditorium: Int): Future[String] = {

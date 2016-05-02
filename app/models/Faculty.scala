@@ -43,7 +43,7 @@ object Faculties {
     dbConfig.db.run(faculties.filter(_.name === name).delete)
   }
 
-  def listAll: Future[Seq[Faculty]]={
+  def listAll: Future[Seq[Faculty]] = {
     dbConfig.db.run(faculties.result)
   }
 }
