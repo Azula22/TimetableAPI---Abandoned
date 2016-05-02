@@ -2,18 +2,18 @@ package services
 
 import java.sql.Time
 
-import models.{Points, Point}
+import models.{Points, Subject}
 
 import scala.concurrent.Future
 
 
 object PointService {
-  def alterPoint(point: Point, name: String, kind: String, teacher: String, auditorium: Int): Future[String] = {
-    Points.alterPoint(point, name, kind, teacher, auditorium)
+  def alterPoint(point: Subject, name: String, kind: String, teacherID: Long, auditorium: Int): Future[String] = {
+    Points.updateSubject(point, name, kind, teacherID, auditorium)
   }
 
 
-  def addPoint(point: Point): Future[String] = {
+  def addPoint(point: Subject): Future[String] = {
     Points.add(point)
   }
 
@@ -21,23 +21,23 @@ object PointService {
     Points.delete(id)
   }
 
-  def get(id: Long): Future[Option[Point]] = {
+  def get(id: Long): Future[Option[Subject]] = {
     Points.get(id)
   }
 
-  def listAllPoints: Future[Seq[Point]] = {
+  def listAllPoints: Future[Seq[Subject]] = {
     Points.listAll
   }
 
-  def group(group: String): Future[Seq[Point]] = {
+  def group(group: String): Future[Seq[Subject]] = {
     Points.getGroup(group)
   }
 
-  def teacher(teacher: String): Future[Seq[Point]] = {
-    Points.getTeacher(teacher)
+  def teacher(teacherID: Long): Future[Seq[Subject]] = {
+    Points.getTeacher(teacherID)
   }
 
-  def checkExistance(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Point]] = {
+  def checkExistance(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Subject]] = {
     Points.checkExistance(groupName, day, time, pair)
   }
 }

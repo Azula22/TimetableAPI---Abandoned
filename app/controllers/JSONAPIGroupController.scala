@@ -1,6 +1,6 @@
 package controllers
 
-import models.Point
+import models.Subject
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
 import services.PointService
@@ -9,26 +9,26 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class JSONAPIGroupController extends Controller{
 
-  implicit val pointWrite = new Writes[Point] {
-    override def writes(point: Point) = Json.obj(
-      "subj" -> point.subject,
-      "type" -> point.kind,
-      "start" -> point.start,
-      "teacher" -> point.teacher,
-      "auditorium" -> point.auditorium
+  implicit val pointWrite = new Writes[Subject] {
+    override def writes(subject: Subject) = Json.obj(
+      "subj" -> subject.name,
+      "type" -> subject.kind,
+      "start" -> subject.start,
+      "teacher" -> subject.teacherID,
+      "auditorium" -> subject.auditorium
     )
   }
 
-  implicit val seqPointWrite = new Writes[Seq[Point]] {
-    override def writes(points: Seq[Point]) = Json.obj(
+  implicit val seqPointWrite = new Writes[Seq[Subject]] {
+    override def writes(points: Seq[Subject]) = Json.obj(
       "status" -> 0,
       "data" -> Json.obj(
-        "group" -> points.head.groupName,
+        "group" -> points.head.groupID,
         "days" -> sortByDays(points)
       ))
   }
 
-  def sortByDays(points: Seq[Point]): JsValue = {
+  def sortByDays(points: Seq[Subject]): JsValue = {
     val setDays = (for {
       p <- points
     } yield p.day).toSet

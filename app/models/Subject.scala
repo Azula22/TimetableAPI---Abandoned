@@ -12,7 +12,7 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class Point(id: Long, subject: String, day: String, groupName: String, kind: String, start: Time, teacher: String, auditorium: Int, pair: Boolean)
+case class Subject(id: Long, name: String, groupID: Long, facultyID: Long, teacherID: Long, day: String, start: Time, oddNot: Boolean, kind: String, auditorium: Int)
 
 case class FormData(subject: Option[String], kind: Option[String],
                     teacher: Option[String], auditorium: Option[Int])
@@ -97,7 +97,7 @@ object FormOneDay {
   )
 }
 
-object PointForm {
+object SubjectForm {
   val form = Form(
     mapping(
       "subject" -> optional(text),
@@ -111,70 +111,72 @@ object PointForm {
 object PairOddForm {
   val form = Form(
     mapping(
-      "pair" -> PointForm.form.mapping,
-      "odd" -> PointForm.form.mapping
+      "pair" -> SubjectForm.form.mapping,
+      "odd" -> SubjectForm.form.mapping
     )(PairOddData.apply)(PairOddData.unapply)
   )
 }
 
-class PointTableDef(tag: Tag) extends Table[Point](tag, "points") {
-  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+class SubjectTableDef(tag: Tag) extends Table[Subject](tag, "SUBJECTS") {
+  def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
 
-  def subject = column[String]("subject")
+  def name = column[String]("NAME")
 
-  def day = column[String]("day")
+  def groupID = column[Long]("GROUPID")
 
-  def groupName = column[String]("groupName")
+  def facultyID = column[Long]("FACULTYID")
 
-  def kind = column[String]("kind")
+  def teacherID = column[Long]("TEACHERID")
 
-  def start = column[Time]("start")
+  def day = column[String]("DAY")
 
-  def teacher = column[String]("teacher")
+  def start = column[Time]("START")
+
+  def oddNot = column[Boolean]("ODDNOT")
+
+  def kind = column[String]("KIND")
 
   def auditorium = column[Int]("auditorium")
 
-  def pair = column[Boolean]("pair")
-
-  override def * = (id, subject, day, groupName, kind, start, teacher, auditorium, pair) <>(Point.tupled, Point.unapply)
+  override def * = (id, name, groupID, facultyID, teacherID, day, start, oddNot, kind, auditorium) <>(Subject.tupled, Subject.unapply)
 }
 
 object Points {
 
   val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
-  val points = TableQuery[PointTableDef]
+  val subjects = TableQuery[SubjectTableDef]
 
-  def add(point: Point): Future[String] = {
-    dbConfig.db.run(points += point).map(res => "Point successfully added").recover {
+  def add(point: Subject): Future[String] = {
+    dbConfig.db.run(subjects += point).map(res => "Point successfully added").recover {
       case ex: Exception => ex.getCause.getMessage
     }
   }
 
-  def checkExistance(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Point]] = {
-    dbConfig.db.run(points.filter(p => p.groupName === groupName && p.day === day && p.start === time && p.pair === pair).result.headOption)
+  def checkExistance(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Subject]] = {
+    dbConfig.db.run(subjects.filter(p => p.name === groupName && p.day === day && p.start === time && p.oddNot === pair).result.headOption)
   }
 
-  def alterPoint(point: Point, name: String, kind: String, teacher: String, auditorium: Int): Future[String] = {
-    dbConfig.db.run(points.filter(_.id === point.id).map(p=>(p.subject, p.kind, p.teacher, p.auditorium)).update((name, kind, teacher, auditorium)).map(res=>"Point successfully updated"))
+  def updateSubject(subject: Subject, name: String, kind: String, teacherID: Long, auditorium: Int): Future[String] = {
+    dbConfig.db.run(subjects.filter(_.id === subject.id).map(p => (p.name, p.kind, p.teacherID, p.auditorium)).update((name, kind, teacherID, auditorium)).map(res => "Point successfully updated"))
   }
 
   def delete(id: Long): Future[Int] = {
-    dbConfig.db.run(points.filter(_.id === id).delete)
+    dbConfig.db.run(subjects.filter(_.id === id).delete)
   }
 
-  def get(id: Long): Future[Option[Point]] = {
-    dbConfig.db.run(points.filter(_.id === id).result.headOption)
+  def get(id: Long): Future[Option[Subject]] = {
+    dbConfig.db.run(subjects.filter(_.id === id).result.headOption)
   }
 
-  def listAll: Future[Seq[Point]] = {
-    dbConfig.db.run(points.result)
+  def listAll: Future[Seq[Subject]] = {
+    dbConfig.db.run(subjects.result)
   }
 
-  def getGroup(group: String): Future[Seq[Point]] = {
-    dbConfig.db.run(points.filter(_.groupName === group).result)
+  def getGroup(group: String): Future[Seq[Subject]] = {
+    dbConfig.db.run(subjects.filter(_.name === group).result)
   }
 
-  def getTeacher(teacher: String): Future[Seq[Point]] = {
-    dbConfig.db.run(points.filter(_.teacher === teacher).result)
+  def getTeacher(teacherID: Long): Future[Seq[Subject]] = {
+    dbConfig.db.run(subjects.filter(_.teacherID === teacherID).result)
   }
 }

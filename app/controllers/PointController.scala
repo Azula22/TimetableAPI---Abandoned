@@ -14,7 +14,7 @@ class PointController extends Controller {
   def index = Action.async {
     implicit request =>
       PointService.listAllPoints map {
-        points => Ok(views.html.index(PointForm.form, FormAllDays.form, points, days,
+        points => Ok(views.html.index(SubjectForm.form, FormAllDays.form, points, days,
           timesForDisplaying, oddNot, timesForUsing))
       }
   }
@@ -60,13 +60,13 @@ class PointController extends Controller {
 
   def addPoint(data: FormDataAllDays, d: String, t: String, oN: String): Unit = {
     val myLesson = pointData(d, t, oN, data)
-    val newPoint = Point(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"),
+    val newPoint = Subject(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"),
       java.sql.Time.valueOf(t + ":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), reverseOddNotToBoolean(oN))
     PointService.addPoint(newPoint)
   }
 
   def reverseOddNotToBoolean(oddNot: String): Boolean = {
-    if (oddNot == "odd") false else true
+    oddNot == "pair"
   }
 
   def deletePoint(id: Long) = Action.async {

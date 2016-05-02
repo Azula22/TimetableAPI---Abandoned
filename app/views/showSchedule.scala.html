@@ -1,7 +1,7 @@
-@(groupform: Form[models.GroupFormData], points: Seq[models.Point], days: Seq[String])(implicit request: RequestHeader)
+@(groupform: Form[models.GroupFormData], subjects: Seq[models.Subject], days: Seq[String])(implicit request: RequestHeader)
 
 @main() {
-    <form id="point-data-form" role="form" action='@routes.ScheduleController.checkGroup()' method="post" class="form-horizontal col-md-2 col-md-offset-5" align="center" autocomplete="off">
+    <form id="point-data-form" role="form" action='@routes.ScheduleController.checkGroup()' method="post" class="form-horizontal col-md-2 col-md-offset-5"  autocomplete="off">
         <div >
             <input class="mdl-textfield__input" type="text" id="nameGroup" name="nameGroup" value="" placeholder="Name of group" required>
         </div>
@@ -11,7 +11,7 @@
     </form>
     <form>
         <div >
-            @if(points != null) {
+            @if(subjects != null) {
                 <fieldset>
                     <table cellspacing="20">
                         <tr>
@@ -26,20 +26,20 @@
                         @for(d <- days){
                             <tr>@*<td>@d</td>@*@
                             @d
-                                @for(point <- points
-                                    if point.day == d
+                                @for(subject <- subjects
+                                    if subject.day == d
                                 ) {
                                     <td>
-                                    @point.pair match {
+                                    @subject.oddNot match {
                                         case true => {Pair}
                                         case false => {Odd}
                                     }
                                     </td>
-                                    <td>@point.subject</td>
-                                    <td>@point.start</td>
-                                    <td>@point.kind</td>
-                                    <td>@point.teacher</td>
-                                    <td>@point.auditorium</td>
+                                    <td>@subject.name</td>
+                                    <td>@subject.start</td>
+                                    <td>@subject.kind</td>
+                                    <td>@subject.teacherID</td>
+                                    <td>@subject.auditorium</td>
                                 </tr>
                         }
                         }
