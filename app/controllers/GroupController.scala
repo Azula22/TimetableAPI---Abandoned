@@ -9,21 +9,26 @@ import scala.concurrent.Future
 
 class GroupController extends Controller {
 
-  def index = Action.async{
-    implicit request=>
-    GroupService.listAllGroups.map{
-      groups =>Ok(views.html.addGroup(GroupForm.form, groups))
-    }
+  def get = Action.async {
+    implicit request =>
+      GroupService.listAllGroups.map {
+        groups => Ok(views.html.addGroup(GroupForm.form, groups))
+      }
   }
 
-  def addGroup = Action.async {
+  def addGroup() = Action.async {
     implicit request =>
       GroupForm.form.bindFromRequest.fold(
-        errorForm => Future.successful(Ok(views.html.addGroup(errorForm, Seq.empty[Group]))),
+        errorForm => Future.successful(Ok(views.html.bad)),
         data => {
-          val newGroup = Group(0, data.nameGroup)
-          GroupService.addGroup(newGroup).map(res => Redirect(routes.PointController.index()))
+          val newGroup = Group(0, data.nameGroup, data.faculty)
+          GroupService.addGroup(newGroup).map(_ => Redirect(routes.GroupController.get()))
         }
       )
+  }
+
+  def delete(id: Long) = Action.async {
+    implicit request =>
+      GroupService.delete(id).map(_ => Redirect(routes.GroupController.get()))
   }
 }

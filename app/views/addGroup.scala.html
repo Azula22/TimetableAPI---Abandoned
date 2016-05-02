@@ -8,5 +8,15 @@
             <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
         </div>
     </form>
+
+    <form>
+        @for(group<-groups) {
+            <td>
+                <tr>@group.nameGroup</tr>
+                <tr>@group.faculty</tr>
+                <tr><a href="@routes.GroupController.delete(group.id)">delete</a> </tr>
+            </td>
+        }
+    </form>
 }
 

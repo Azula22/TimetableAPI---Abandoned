@@ -12,7 +12,7 @@ GET         /:name                    controllers.ScheduleController.index(name)
 POST        /filter                   controllers.ScheduleController.checkGroup
 
 #For inserting groups
-GET         /group/                   controllers.GroupController.index
+GET         /group/                   controllers.GroupController.get
 POST        /group/add                controllers.GroupController.addGroup
 
 #For inserting faculties

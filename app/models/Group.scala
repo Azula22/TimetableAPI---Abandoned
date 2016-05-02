@@ -10,27 +10,30 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class Group(id: Long, nameGroup: String)
+case class Group(id: Long, nameGroup: String, faculty: String)
 
-case class GroupFormData(nameGroup: String)
+case class GroupFormData(nameGroup: String, faculty: String)
 
 object GroupForm {
   val form = Form(
     mapping(
-      "nameGroup" -> nonEmptyText
+      "nameGroup" -> nonEmptyText,
+      "faculty" -> nonEmptyText
     )(GroupFormData.apply)(GroupFormData.unapply)
   )
 }
 
 class GroupTableDef(tag: Tag) extends Table[Group](tag, "GROUPS") {
-  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
 
-  def groupName = column[String]("groupName")
+  def groupName = column[String]("GROUPNAME")
 
-  override def * = (id, groupName)<>(Group.tupled, Group.unapply)
+  def faculty = column[String]("FACULTY")
+
+  override def * = (id, groupName, faculty) <>(Group.tupled, Group.unapply)
 }
 
-object Groups{
+object Groups {
 
   val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
   val groups = TableQuery[GroupTableDef]
