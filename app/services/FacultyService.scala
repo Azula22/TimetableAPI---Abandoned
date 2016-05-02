@@ -9,15 +9,9 @@ import scala.concurrent.Future
   */
 object FacultyService {
 
-  def addFaculty(name: String): Future[String] = {
-    Faculties.add(Faculty(name))
-  }
+  def addFaculty(name: String): Future[String] = Faculties.add(Faculty(name))
 
-  def deleteFaculty(name: String): Future[Int] = {
-    Faculties.delete(name)
-  }
+  def deleteFaculty(name: String): Future[Int] = Faculties.delete(name)
 
-  def getAllFaculties: Future[Seq[Faculty]] = {
-    Faculties.listAll
-  }
+  def getAllFaculties: Future[Seq[Faculty]] = Faculties.listAll
 }

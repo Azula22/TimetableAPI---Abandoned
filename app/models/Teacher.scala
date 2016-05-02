@@ -43,7 +43,11 @@ object Teachers {
     dbConfig.db.run(teachers.filter(_.name === name).delete)
   }
 
-  def listAll: Future[Seq[Teacher]]={
+  def listAll: Future[Seq[Teacher]] = {
     dbConfig.db.run(teachers.result)
+  }
+
+  def getTeacher(teacherName: String): Future[Option[Teacher]] = {
+    dbConfig.db.run(teachers.filter(_.name == teacherName).result.headOption)
   }
 }
