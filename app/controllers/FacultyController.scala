@@ -24,7 +24,7 @@ class FacultyController extends Controller {
   def addFaculty() = Action.async {
     implicit request =>
       FacultyForm.form.bindFromRequest.fold(
-        errorForm => Future.successful(Ok(views.html.bad)),
+        error => ???,
         data => FacultyService.addFaculty(data.name).map(_ => Redirect(routes.FacultyController.get()))
       )
   }

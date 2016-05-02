@@ -2,24 +2,24 @@ package controllers
 
 import models._
 import play.api.mvc._
-import services.PointService
+import services.SubjectService
 import controllers.DataHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class PointController extends Controller {
+class SubjectController extends Controller {
 
 
   def index = Action.async {
     implicit request =>
-      PointService.listAllPoints map {
+      SubjectService.getAllSubjects map {
         points => Ok(views.html.index(SubjectForm.form, FormAllDays.form, points, days,
           timesForDisplaying, oddNot, timesForUsing))
       }
   }
 
-  def addPoints = Action.async {
+  def addSubjects() = Action.async {
     implicit request =>
       FormAllDays.form.bindFromRequest.fold(
         errorForm => Future.successful(BadRequest(views.html.bad())),
@@ -30,7 +30,7 @@ class PointController extends Controller {
             for (t <- timesForDisplaying) {
               for (oN <- oddNot) {
 
-                if (subjectIsDefined(d, t, oN, data)) {
+                if (idSubjectDefined(d, t, oN, data)) {
                   addThisSubject(data, d, t, oN)
                 }
               }
@@ -38,41 +38,41 @@ class PointController extends Controller {
           }
         }
       )
-      PointService.listAllPoints.map(res => Redirect(routes.PointController.index()))
+      SubjectService.getAllSubjects.map(res => Redirect(routes.SubjectController.index()))
   }
 
-  def pointData(d: String, t: String, oN: String, data: FormDataAllDays): FormData = {
+  def getSubjectByDayTimeAndOddNot(d: String, t: String, oN: String, data: FormDataAllDays): FormData = {
     data.getDay(d).get.getPair(t).get.getPairOrOdd(oN).get
   }
 
-  def subjectIsDefined(d: String, t: String, oN: String, data: FormDataAllDays): Boolean = {
-    if (pointData(d, t, oN, data).subject.isDefined) true else false
+  def idSubjectDefined(d: String, t: String, oN: String, data: FormDataAllDays): Boolean = {
+    if (getSubjectByDayTimeAndOddNot(d, t, oN, data).subject.isDefined) true else false
   }
 
   def addThisSubject(data: FormDataAllDays, d: String, t: String, oN: String) = {
-    val myLesson = pointData(d, t, oN, data)
-    PointService.checkExistance(data.groupName, d, java.sql.Time.valueOf(t + ":00"), reverseOddNotToBoolean(oN)).map(p =>
-      PointService.alterPoint(p.get, myLesson.subject.get, myLesson.kind.getOrElse("-"), myLesson.teacher.getOrElse("-"),
+    val myLesson = getSubjectByDayTimeAndOddNot(d, t, oN, data)
+    SubjectService.getOptionSubjectIfExists(data.groupName, d, java.sql.Time.valueOf(t + ":00"), reverseOddNotToBoolean(oN)).map(p =>
+      SubjectService.alterSubject(p.get, myLesson.subject.get, myLesson.kind.getOrElse("-"), myLesson.teacher.getOrElse(),
         myLesson.auditorium.getOrElse(0))).recover {
-      case _ => addPoint(data, d, t, oN)
+      case _ => addSubject(data, d, t, oN)
     }
   }
 
-  def addPoint(data: FormDataAllDays, d: String, t: String, oN: String): Unit = {
-    val myLesson = pointData(d, t, oN, data)
+  def addSubject(data: FormDataAllDays, d: String, t: String, oN: String): Unit = {
+    val myLesson = getSubjectByDayTimeAndOddNot(d, t, oN, data)
     val newPoint = Subject(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"),
       java.sql.Time.valueOf(t + ":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), reverseOddNotToBoolean(oN))
-    PointService.addPoint(newPoint)
+    SubjectService.addSubject(newPoint)
   }
 
   def reverseOddNotToBoolean(oddNot: String): Boolean = {
     oddNot == "pair"
   }
 
-  def deletePoint(id: Long) = Action.async {
+  def deleteSubject(id: Long) = Action.async {
     implicit request =>
-      PointService.deletePoint(id) map {
-        res => Redirect(routes.PointController.index())
+      SubjectService.deleteSubjectByID(id) map {
+        res => Redirect(routes.SubjectController.index())
       }
   }
 

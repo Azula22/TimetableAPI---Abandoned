@@ -19,7 +19,7 @@ class GroupController extends Controller {
   def addGroup() = Action.async {
     implicit request =>
       GroupForm.form.bindFromRequest.fold(
-        errorForm => Future.successful(Ok(views.html.bad)),
+        errorForm => ???,
         data => {
           val newGroup = Group(0, data.nameGroup, data.faculty)
           GroupService.addGroup(newGroup).map(_ => Redirect(routes.GroupController.get()))

@@ -176,7 +176,7 @@ object Points {
     dbConfig.db.run(subjects.filter(_.name === group).result)
   }
 
-  def getTeacher(teacherID: Long): Future[Seq[Subject]] = {
+  def getTeacherByID(teacherID: Long): Future[Seq[Subject]] = {
     dbConfig.db.run(subjects.filter(_.teacherID === teacherID).result)
   }
 }

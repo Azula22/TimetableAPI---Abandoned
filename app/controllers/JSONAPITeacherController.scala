@@ -3,7 +3,7 @@ package controllers
 import models.Subject
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
-import services.PointService
+import services.SubjectService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -45,7 +45,7 @@ class JSONAPITeacherController extends Controller{
 
   def getTeacher(teacherId: Long) = Action.async{
     implicit request=>
-      PointService.teacher(teacherId).map(
+      SubjectService.teacherByID(teacherId).map(
         res =>res.headOption match {
           case Some(v) => Ok(Json.prettyPrint(Json.toJson(res)))
           case None => Ok(Json.prettyPrint(Json.obj("status" -> 1, "data" -> "Teacher doesn't exist")))

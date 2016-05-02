@@ -1,7 +1,7 @@
 @(pointform: Form[models.FormData], pointforms: Form[models.FormDataAllDays], points: Seq[models.Subject], days: Seq[String], times: Seq[String], oddNot: Seq[String], timesForUs: Seq[String])(implicit request: RequestHeader)
 
     @main() {
-        <form id="point-data-form" role="form" action='@routes.PointController.addPoints()' method="post" class="form-horizontal" autocomplete="off">
+        <form id="point-data-form" role="form" action='@routes.SubjectController.addSubjects()' method="post" class="form-horizontal" autocomplete="off">
             <input type="text" id="groupName" name="groupName" value="" placeholder="Name of Group" class="form-control input-lg" required>
 
             @for(d <- days) {

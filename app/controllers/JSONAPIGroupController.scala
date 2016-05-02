@@ -3,7 +3,7 @@ package controllers
 import models.Subject
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
-import services.PointService
+import services.SubjectService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -44,7 +44,7 @@ class JSONAPIGroupController extends Controller{
 
   def getGroupJson(group: String) = Action.async {
     implicit request =>
-      PointService.group(group).map(
+      SubjectService.getGroupByName(group).map(
         res => res.headOption match {
           case Some(v) => Ok(Json.prettyPrint(Json.toJson(res)))
           case None => Ok(Json.prettyPrint(Json.obj("status" -> 1, "data" -> "Group doesn't exist")))
