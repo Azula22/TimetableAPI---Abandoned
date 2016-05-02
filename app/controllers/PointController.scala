@@ -3,6 +3,7 @@ package controllers
 import models._
 import play.api.mvc._
 import services.PointService
+import controllers.DataHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -13,8 +14,8 @@ class PointController extends Controller {
   def index = Action.async {
     implicit request =>
       PointService.listAllPoints map {
-        points => Ok(views.html.index(PointForm.form, FormAllDays.form, points, DataHelper.days,
-          DataHelper.timesForDisplaying, DataHelper.oddNot, DataHelper.timesForUsing))
+        points => Ok(views.html.index(PointForm.form, FormAllDays.form, points, days,
+          timesForDisplaying, oddNot, timesForUsing))
       }
   }
 
@@ -25,9 +26,9 @@ class PointController extends Controller {
         data => {
 
           //Cycles for getting to each point separately
-          for (d <- DataHelper.days) {
-            for (t <- DataHelper.timesForDisplaying) {
-              for (oN <- DataHelper.oddNot) {
+          for (d <- days) {
+            for (t <- timesForDisplaying) {
+              for (oN <- oddNot) {
 
                 if (subjectIsDefined(d, t, oN, data)) {
                   addThisSubject(data, d, t, oN)
