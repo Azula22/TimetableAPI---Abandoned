@@ -4,7 +4,6 @@ import play.api.Play
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.db.slick.DatabaseConfigProvider
-import play.mvc.Results.Todo
 import slick.driver.JdbcProfile
 import slick.driver.MySQLDriver.api._
 
