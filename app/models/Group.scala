@@ -38,22 +38,20 @@ object Groups {
   val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
   val groups = TableQuery[GroupTableDef]
 
-  def add(group: Group): Future[String] = {
+  def add(group: Group): Future[String] =
     dbConfig.db.run(groups += group).map(res => "Point successfully added").recover {
       case ex: Exception => ex.getCause.getMessage
     }
-  }
 
-  def delete(id: Long): Future[Int] = {
-    dbConfig.db.run(groups.filter(_.id === id).delete)
-  }
+  def delete(id: Long): Future[Int] = dbConfig.db.run(groups.filter(_.id === id).delete)
 
-  def get(id: Long): Future[Option[Group]] = {
-    dbConfig.db.run(groups.filter(_.id === id).result.headOption)
-  }
+  def get(id: Long): Future[Option[Group]] = dbConfig.db.run(groups.filter(_.id === id).result.headOption)
 
-  def listAll: Future[Seq[Group]] = {
-    dbConfig.db.run(groups.result)
-  }
+  def listAll: Future[Seq[Group]] = dbConfig.db.run(groups.result)
 
+  def getGroupByName(name: String): Future[Option[Long]] = dbConfig.db.run(groups.filter(_.groupName === name)
+    .map(_.id).result.headOption)
+
+  def getFacultyByGroupName(name: String): Future[Option[String]] = dbConfig.db.run(groups.filter(_.groupName === name)
+    .map(_.faculty).result.headOption)
 }

@@ -2,7 +2,7 @@ package controllers
 
 import models._
 import play.api.mvc._
-import services.SubjectService
+import services.{GroupService, SubjectService}
 import controllers.DataHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -50,19 +50,26 @@ class SubjectController extends Controller {
   }
 
   def addThisSubject(data: FormDataAllDays, d: String, t: String, oN: String) = {
-    val myLesson = getSubjectByDayTimeAndOddNot(d, t, oN, data)
+    val dataFromForm = getSubjectByDayTimeAndOddNot(d, t, oN, data)
     SubjectService.getOptionSubjectIfExists(data.groupName, d, java.sql.Time.valueOf(t + ":00"), reverseOddNotToBoolean(oN)).map(p =>
-      SubjectService.alterSubject(p.get, myLesson.subject.get, myLesson.kind.getOrElse("-"), myLesson.teacher.getOrElse(),
-        myLesson.auditorium.getOrElse(0))).recover {
+      SubjectService.alterSubject(p.get, dataFromForm.subject.get, dataFromForm.kind.getOrElse("-"), dataFromForm.teacher.orNull,
+        dataFromForm.auditorium.getOrElse(0))).recover {
       case _ => addSubject(data, d, t, oN)
     }
   }
 
-  def addSubject(data: FormDataAllDays, d: String, t: String, oN: String): Unit = {
-    val myLesson = getSubjectByDayTimeAndOddNot(d, t, oN, data)
-    val newPoint = Subject(0, myLesson.subject.getOrElse("-"), d, data.groupName, myLesson.kind.getOrElse("-"),
-      java.sql.Time.valueOf(t + ":00"), myLesson.teacher.getOrElse("-"), myLesson.auditorium.getOrElse(0), reverseOddNotToBoolean(oN))
-    SubjectService.addSubject(newPoint)
+  def addSubject(data: FormDataAllDays, day: String, time: String, oDD: String) = {
+    val myLesson = getSubjectByDayTimeAndOddNot(day, time, oDD, data)
+
+    for {
+      g <- GroupService.getGroupIDByName(data.groupName)
+      f <- GroupService.getFacultyByGroupName(data.groupName)
+    } yield {
+      val newSubject = Subject(0, myLesson.subject.getOrElse("-"), g.getOrElse(-1),
+        myLesson.teacher.getOrElse("-"), f.getOrElse("_"), day, java.sql.Time.valueOf(time + ":00"),
+        reverseOddNotToBoolean(oDD), myLesson.kind.getOrElse("-"), myLesson.auditorium.getOrElse(0))
+      SubjectService.addSubject(newSubject)
+    }
   }
 
   def reverseOddNotToBoolean(oddNot: String): Boolean = {

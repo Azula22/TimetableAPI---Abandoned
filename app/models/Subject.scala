@@ -12,7 +12,8 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class Subject(id: Long, name: String, groupID: Long, facultyID: Long, teacherID: Long, day: String, start: Time, oddNot: Boolean, kind: String, auditorium: Int)
+case class Subject(id: Long, name: String, groupID: Long, faculty: String, teacher: String,
+                   day: String, start: Time, oddNot: Boolean, kind: String, auditorium: Int)
 
 case class FormData(subject: Option[String], kind: Option[String],
                     teacher: Option[String], auditorium: Option[Int])
@@ -124,9 +125,9 @@ class SubjectTableDef(tag: Tag) extends Table[Subject](tag, "SUBJECTS") {
 
   def groupID = column[Long]("GROUPID")
 
-  def facultyID = column[Long]("FACULTYID")
+  def faculty = column[String]("FACULTY")
 
-  def teacherID = column[Long]("TEACHERID")
+  def teacher = column[String]("TEACHER")
 
   def day = column[String]("DAY")
 
@@ -138,10 +139,10 @@ class SubjectTableDef(tag: Tag) extends Table[Subject](tag, "SUBJECTS") {
 
   def auditorium = column[Int]("auditorium")
 
-  override def * = (id, name, groupID, facultyID, teacherID, day, start, oddNot, kind, auditorium) <>(Subject.tupled, Subject.unapply)
+  override def * = (id, name, groupID, faculty, teacher, day, start, oddNot, kind, auditorium) <>(Subject.tupled, Subject.unapply)
 }
 
-object Points {
+object Subjects {
 
   val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
   val subjects = TableQuery[SubjectTableDef]
@@ -156,8 +157,8 @@ object Points {
     dbConfig.db.run(subjects.filter(p => p.name === groupName && p.day === day && p.start === time && p.oddNot === pair).result.headOption)
   }
 
-  def updateSubject(subject: Subject, name: String, kind: String, teacherID: Long, auditorium: Int): Future[String] = {
-    dbConfig.db.run(subjects.filter(_.id === subject.id).map(p => (p.name, p.kind, p.teacherID, p.auditorium)).update((name, kind, teacherID, auditorium)).map(res => "Point successfully updated"))
+  def updateSubject(subject: Subject, name: String, kind: String, teacher: String, auditorium: Int): Future[String] = {
+    dbConfig.db.run(subjects.filter(_.id === subject.id).map(p => (p.name, p.kind, p.teacher, p.auditorium)).update((name, kind, teacher, auditorium)).map(res => "Point successfully updated"))
   }
 
   def delete(id: Long): Future[Int] = {
@@ -176,7 +177,7 @@ object Points {
     dbConfig.db.run(subjects.filter(_.name === group).result)
   }
 
-  def getTeacherByID(teacherID: Long): Future[Seq[Subject]] = {
-    dbConfig.db.run(subjects.filter(_.teacherID === teacherID).result)
+  def getTeacher(teacher: String): Future[Seq[Subject]] = {
+    dbConfig.db.run(subjects.filter(_.teacher === teacher).result)
   }
 }

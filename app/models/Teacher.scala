@@ -48,6 +48,6 @@ object Teachers {
   }
 
   def getTeacher(teacherName: String): Future[Option[Teacher]] = {
-    dbConfig.db.run(teachers.filter(_.name == teacherName).result.headOption)
+    dbConfig.db.run(teachers.filter(_.name === teacherName).result.headOption)
   }
 }

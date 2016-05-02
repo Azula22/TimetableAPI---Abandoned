@@ -3,27 +3,28 @@
 # ~~~~
 
 #For all schedule
-GET         /schedule                 controllers.SubjectController.startPage
-POST        /schedule/add             controllers.SubjectController.addSubjects
-GET         /schedule/delete          controllers.SubjectController.deleteSubject(id: Long)
+GET         /schedule               controllers.SubjectController.startPage
+POST        /schedule/add           controllers.SubjectController.addSubjects
+GET         /schedule/delete        controllers.SubjectController.deleteSubject(id: Long)
 
-GET         /                         controllers.ScheduleController.indexDefault
-GET         /:name                    controllers.ScheduleController.index(name)
-POST        /filter                   controllers.ScheduleController.checkGroup
+GET         /                       controllers.ScheduleController.indexDefault
+GET         /:name                  controllers.ScheduleController.index(name)
+POST        /filter                 controllers.ScheduleController.checkGroup
 
 #For inserting groups
-GET         /group/                   controllers.GroupController.get
-POST        /group/add                controllers.GroupController.addGroup
+GET         /group/                 controllers.GroupController.get
+POST        /group/add              controllers.GroupController.addGroup
+GET         /group/delete           controllers.GroupController.delete(id: Long)
 
 #For inserting faculties
-GET         /faculty/                 controllers.FacultyController.get
-POST        /faculty/add              controllers.FacultyController.addFaculty
-GET         /faculty/delete           controllers.FacultyController.deleteFaculty(name)
+GET         /faculty/               controllers.FacultyController.get
+POST        /faculty/add            controllers.FacultyController.addFaculty
+GET         /faculty/delete         controllers.FacultyController.deleteFaculty(name)
 #TODO rewrite GET /faculty/delete router to DELETE!!
 
-#API
-GET         /api/group/:name          controllers.JSONAPIGroupController.getGroupJson(name)
-GET         /api/teacher/:tchr        controllers.JSONAPITeacherController.getTeacher(tchr)
+##API
+#GET         /api/group/:name          controllers.JSONAPIGroupController.getGroupJson(name)
+#GET         /api/teacher/:tchr        controllers.JSONAPITeacherController.getTeacher(tchr)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

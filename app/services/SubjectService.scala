@@ -2,28 +2,28 @@ package services
 
 import java.sql.Time
 
-import models.{Points, Subject}
+import models.{Subjects, Subject}
 
 import scala.concurrent.Future
 
 
 object SubjectService {
-  def alterSubject(subject: Subject, name: String, kind: String, teacherID: Long, auditorium: Int): Future[String] =
-    Points.updateSubject(subject, name, kind, teacherID, auditorium)
+  def alterSubject(subject: Subject, name: String, kind: String, teacher: String, auditorium: Int): Future[String] =
+    Subjects.updateSubject(subject, name, kind, teacher, auditorium)
 
-  def addSubject(subject: Subject): Future[String] = Points.add(subject)
+  def addSubject(subject: Subject): Future[String] = Subjects.add(subject)
 
-  def deleteSubjectByID(id: Long): Future[Int] = Points.delete(id)
+  def deleteSubjectByID(id: Long): Future[Int] = Subjects.delete(id)
 
-  def getSubjectByID(id: Long): Future[Option[Subject]] = Points.get(id)
+  def getSubjectByID(id: Long): Future[Option[Subject]] = Subjects.get(id)
 
-  def getAllSubjects: Future[Seq[Subject]] = Points.listAll
+  def getAllSubjects: Future[Seq[Subject]] = Subjects.listAll
 
-  def getGroupByName(name: String): Future[Seq[Subject]] = Points.getGroup(name)
+  def getGroupByName(name: String): Future[Seq[Subject]] = Subjects.getGroup(name)
 
-  def teacherByID(teacherID: Long): Future[Seq[Subject]] = Points.getTeacherByID(teacherID)
+  def teacherByID(teacher: String): Future[Seq[Subject]] = Subjects.getTeacher(teacher)
 
   def getOptionSubjectIfExists(groupName: String, day: String, time: Time, pair: Boolean): Future[Option[Subject]] =
-    Points.checkExistance(groupName, day, time, pair)
+    Subjects.checkExistance(groupName, day, time, pair)
 
 }
