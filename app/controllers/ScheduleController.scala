@@ -1,7 +1,8 @@
 package controllers
 
 
-import models.{GroupForm, Point}
+import controllers.DataHelper.days
+import models.GroupForm
 import play.api.mvc._
 import services.PointService
 
@@ -14,14 +15,14 @@ class ScheduleController extends Controller {
   def indexDefault = Action.async {
     implicit request =>
       PointService.listAllPoints.map {
-        points => Ok(views.html.showSchedule(GroupForm.form, null, DataHelper.days))
+        points => Ok(views.html.showSchedule(GroupForm.form, null, days))
       }
   }
 
   def index(data: String) = Action.async {
     implicit request =>
       PointService.group(data).map {
-        points => Ok(views.html.showSchedule(GroupForm.form, points.sortBy(_.start.toLocalTime), DataHelper.days))
+        points => Ok(views.html.showSchedule(GroupForm.form, points.sortBy(_.start.toLocalTime), days))
       }
   }
 
