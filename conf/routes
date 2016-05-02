@@ -15,6 +15,12 @@ POST        /filter                   controllers.ScheduleController.checkGroup
 GET         /group/                   controllers.GroupController.index
 POST        /group/add                controllers.GroupController.addGroup
 
+#For inserting faculties
+GET         /faculty/                 controllers.FacultyController.get
+POST        /faculty/add              controllers.FacultyController.addFaculty
+GET         /faculty/delete           controllers.FacultyController.deleteFaculty(name)
+#TODO rewrite GET /faculty/delete router to DELETE!!
+
 #API
 GET         /api/group/:name          controllers.JSONAPIGroupController.getGroupJson(name)
 GET         /api/teacher/:tchr        controllers.JSONAPITeacherController.getTeacher(tchr)
