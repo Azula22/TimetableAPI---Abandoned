@@ -3,9 +3,10 @@ package controllers
 import forms.GroupForm
 import models.Group
 import play.api.mvc._
-import services.GroupService
+import services.{FacultyService, GroupService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class GroupController extends Controller {
 
@@ -21,10 +22,11 @@ class GroupController extends Controller {
       GroupForm.form.bindFromRequest.fold(
         errorForm => ???,
         data => {
-          val newGroup = Group(0, data.nameGroup, data.faculty)
-          GroupService.addGroup(newGroup).map(_ => Redirect(routes.GroupController.get()))
-        }
-      )
+          (for {
+            seqOfFaculties <- FacultyService.getAllFaculties
+            fut <- GroupService.addGroup(Group(0, data.nameGroup, data.faculty)) if seqOfFaculties.exists(_.name == data.faculty)
+          } yield fut).map(_ => Redirect(routes.GroupController.get()))
+        })
   }
 
   def delete(id: Long) = Action.async {
