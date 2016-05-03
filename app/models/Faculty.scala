@@ -13,20 +13,22 @@ import scala.concurrent.Future
 /**
   * Created by Kushik on 02.05.2016.
   */
-case class Faculty(name: String)
+case class Faculty(id: Long, name: String)
+case class FacultyFormData( name: String)
 
 object FacultyForm {
   val form = Form(
     mapping(
       "nameOfFaculty" -> nonEmptyText
-    )(Faculty.apply)(Faculty.unapply)
+    )(FacultyFormData.apply)(FacultyFormData.unapply)
   )
 }
 
 class FacultyTable(tag: Tag) extends Table[Faculty](tag, "FACULTY") {
+  def id = column[Long]("ID")
   def name = column[String]("NAME", O.PrimaryKey)
 
-  override def * = name <>(Faculty.apply, Faculty.unapply)
+  override def * = (id, name) <>(Faculty.tupled, Faculty.unapply)
 }
 
 object Faculties {

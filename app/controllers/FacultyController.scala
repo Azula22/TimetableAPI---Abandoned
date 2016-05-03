@@ -17,14 +17,14 @@ class FacultyController extends Controller {
   def get() = Action.async {
     implicit request =>
       FacultyService.getAllFaculties.map(
-        faculties => Ok(views.html.addFaculty(FacultyForm.form, faculties))
+        faculties => Ok(views.html.addFaculty(faculties))
       )
   }
 
   def addFaculty() = Action.async {
     implicit request =>
       FacultyForm.form.bindFromRequest.fold(
-        error => ???,
+        error => FacultyService.getAllFaculties.map(_=>Ok(views.html.bad())),
         data => FacultyService.addFaculty(data.name).map(_ => Redirect(routes.FacultyController.get()))
       )
   }

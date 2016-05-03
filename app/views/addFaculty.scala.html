@@ -1,16 +1,21 @@
-@(facultyForm: Form[models.Faculty], faculties: Seq[Faculty])(implicit request: RequestHeader)
+@(faculties: Seq[Faculty])(implicit request: RequestHeader)
 
 
-@main() {
+    @main() {
 
-    <form id="faculty-data-form" role="form" action='@routes.FacultyController.addFaculty()' method="post" class="form-horizontal" autocomplete="off">
-        <input type="text" id="nameGroup" name="nameGroup" value="" placeholder="Name of New Faculty" class="form-control input-lg" required>
-        <div class="form-actions controls ynt-btn-xlarge">
-            <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
+        <form id="faculty-data-form" role="form" action='@routes.FacultyController.addFaculty()' method="post" class="form-horizontal" autocomplete="off">
+            <input type="text" id="nameOfFaculty" name="nameOfFaculty" value="" placeholder="Name of New Faculty" class="form-control input-lg" required>
+            <div class="form-actions controls ynt-btn-xlarge">
+                <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
+            </div>
+        </form>
+
+        <div>
+        <table>
+        <tr>
+        @for(faculty <- faculties) {
+            <td>@faculty.name <a href="@routes.FacultyController.deleteFaculty(faculty.name)">delete</a></td>
+        }</tr>
+        </table>
         </div>
-    </form>
-
-    @for(faculty<-faculties){
-        <span>@faculty</span><a href="@routes.FacultyController.deleteFaculty(faculty.name)">delete</a>
     }
-}
