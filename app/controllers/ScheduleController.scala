@@ -2,7 +2,7 @@ package controllers
 
 
 import controllers.DataHelper.days
-import models.GroupForm
+import forms.GroupForm
 import play.api.mvc._
 import services.SubjectService
 
@@ -12,17 +12,17 @@ import scala.concurrent.Future
 
 class ScheduleController extends Controller {
 
-  def indexDefault = Action.async {
+  def showFieldForInsertingGroupName = Action.async {
     implicit request =>
       SubjectService.getAllSubjects.map {
-        points => Ok(views.html.showSchedule(GroupForm.form, null, days))
+        points => Ok(views.html.showSchedule(null, days))
       }
   }
 
-  def index(data: String) = Action.async {
+  def showGroupSchedule(data: String) = Action.async {
     implicit request =>
       SubjectService.getGroupByName(data).map {
-        points => Ok(views.html.showSchedule(GroupForm.form, points.sortBy(_.start.toLocalTime), days))
+        points => Ok(views.html.showSchedule(points.sortBy(_.start.toLocalTime), days))
       }
   }
 
@@ -32,7 +32,7 @@ class ScheduleController extends Controller {
         errorForm => Future.successful(Ok(views.html.bad())),
         data => {
           SubjectService.getAllSubjects.map(
-            res => Redirect(routes.ScheduleController.index(data.nameGroup)))
+            res => Redirect(routes.ScheduleController.showGroupSchedule(data.nameGroup)))
         }
       )
   }

@@ -4,12 +4,11 @@ package controllers
   * Created by Kushik on 02.05.2016.
   */
 
-import models.{Faculty, FacultyForm}
+import forms.FacultyForm
 import play.api.mvc._
 import services.FacultyService
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 class FacultyController extends Controller {
 

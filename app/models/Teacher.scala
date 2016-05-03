@@ -15,13 +15,6 @@ import scala.concurrent.Future
   */
 case class Teacher(name: String)
 
-object TeacherForm {
-  val form = Form(
-    mapping(
-      "nameOfFaculty" -> nonEmptyText
-    )(Teacher.apply)(Teacher.unapply)
-  )
-}
 
 class TeacherTable(tag: Tag) extends Table[Teacher](tag, "TEACHERS") {
   def name = column[String]("NAME", O.PrimaryKey)

@@ -1,18 +1,18 @@
 package controllers
 
-import models.{Group, GroupForm}
+import forms.GroupForm
+import models.Group
 import play.api.mvc._
 import services.GroupService
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 class GroupController extends Controller {
 
   def get = Action.async {
     implicit request =>
       GroupService.listAllGroups.map {
-        groups => Ok(views.html.addGroup(GroupForm.form, groups))
+        groups => Ok(views.html.addGroup(groups))
       }
   }
 

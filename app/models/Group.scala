@@ -12,17 +12,6 @@ import scala.concurrent.Future
 
 case class Group(id: Long, nameGroup: String, faculty: String)
 
-case class GroupFormData(nameGroup: String, faculty: String)
-
-object GroupForm {
-  val form = Form(
-    mapping(
-      "nameGroup" -> nonEmptyText,
-      "faculty" -> nonEmptyText
-    )(GroupFormData.apply)(GroupFormData.unapply)
-  )
-}
-
 class GroupTableDef(tag: Tag) extends Table[Group](tag, "GROUPS") {
   def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
 

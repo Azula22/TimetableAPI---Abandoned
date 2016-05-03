@@ -4,6 +4,7 @@ import models._
 import play.api.mvc._
 import services.{GroupService, SubjectService}
 import controllers.DataHelper._
+import forms.{FormAllDays, FormData, FormDataAllDays, SubjectForm}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -14,7 +15,7 @@ class SubjectController extends Controller {
   def startPage = Action.async {
     implicit request =>
       SubjectService.getAllSubjects map {
-        points => Ok(views.html.index(SubjectForm.form, FormAllDays.form, points, days,
+        points => Ok(views.html.index(points, days,
           timesForDisplaying, oddNot, timesForUsing))
       }
   }

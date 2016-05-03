@@ -1,4 +1,4 @@
-@(pointform: Form[models.FormData], pointforms: Form[models.FormDataAllDays], points: Seq[models.Subject], days: Seq[String], times: Seq[String], oddNot: Seq[String], timesForUs: Seq[String])(implicit request: RequestHeader)
+@(points: Seq[models.Subject], days: Seq[String], times: Seq[String], oddNot: Seq[String], timesForUs: Seq[String])(implicit request: RequestHeader)
 
     @main() {
         <form id="point-data-form" role="form" action='@routes.SubjectController.addSubjects()' method="post" class="form-horizontal" autocomplete="off">

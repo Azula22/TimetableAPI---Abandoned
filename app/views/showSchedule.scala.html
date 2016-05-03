@@ -1,4 +1,4 @@
-@(groupform: Form[models.GroupFormData], subjects: Seq[models.Subject], days: Seq[String])(implicit request: RequestHeader)
+@(subjects: Seq[models.Subject], days: Seq[String])(implicit request: RequestHeader)
 
 @main() {
     <form id="point-data-form" role="form" action='@routes.ScheduleController.checkGroup()' method="post" class="form-horizontal col-md-2 col-md-offset-5"  autocomplete="off">

@@ -7,8 +7,8 @@ GET         /schedule               controllers.SubjectController.startPage
 POST        /schedule/add           controllers.SubjectController.addSubjects
 GET         /schedule/delete        controllers.SubjectController.deleteSubject(id: Long)
 
-GET         /                       controllers.ScheduleController.indexDefault
-GET         /:name                  controllers.ScheduleController.index(name)
+GET         /                       controllers.ScheduleController.showFieldForInsertingGroupName
+GET         /:name                  controllers.ScheduleController.showGroupSchedule(name)
 POST        /filter                 controllers.ScheduleController.checkGroup
 
 #For inserting groups
