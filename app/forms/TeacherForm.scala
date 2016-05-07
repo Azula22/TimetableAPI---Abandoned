@@ -7,7 +7,7 @@ import play.api.data.Forms._
 object TeacherForm {
   val form = Form(
     mapping(
-      "nameOfFaculty" -> nonEmptyText
+      "nameOfTeacher" -> nonEmptyText
     )(Teacher.apply)(Teacher.unapply)
   )
 }

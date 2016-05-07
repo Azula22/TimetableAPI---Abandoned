@@ -4,7 +4,7 @@ package controllers
 import controllers.DataHelper.days
 import forms.GroupForm
 import play.api.mvc._
-import services.SubjectService
+import services.{FacultyService, GroupService, SubjectService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -31,8 +31,12 @@ class ScheduleController extends Controller {
       GroupForm.form.bindFromRequest.fold(
         errorForm => Future.successful(Ok(views.html.bad())),
         data => {
-          SubjectService.getAllSubjects.map(
-            res => Redirect(routes.ScheduleController.showGroupSchedule(data.nameGroup)))
+          (for (
+            seqGroups <- GroupService.getAllGroups
+          ) yield seqGroups.exists(_.nameGroup == data.nameGroup)).map {
+            case true => Redirect(routes.ScheduleController.showGroupSchedule(data.nameGroup))
+            case false => Ok(views.html.bad())
+          }
         }
       )
   }

@@ -11,15 +11,20 @@ GET         /                       controllers.ScheduleController.showFieldForI
 GET         /:name                  controllers.ScheduleController.showGroupSchedule(name)
 POST        /filter                 controllers.ScheduleController.checkGroup
 
-#For inserting groups
-GET         /group/                 controllers.GroupController.get
+#For  groups
+GET         /group/get              controllers.GroupController.get
 POST        /group/add              controllers.GroupController.addGroup
 GET         /group/delete           controllers.GroupController.delete(id: Long)
 
-#For inserting faculties
-GET         /faculty/               controllers.FacultyController.get
+#For  faculties
+GET         /faculty/get            controllers.FacultyController.get
 POST        /faculty/add            controllers.FacultyController.addFaculty
 GET         /faculty/delete         controllers.FacultyController.deleteFaculty(name)
+
+#For teachers
+GET         /teachers/get           controllers.TeacherController.get
+POST        /teacher/add            controllers.TeacherController.addTeacher
+GET         /teacher/delete         controllers.TeacherController.delete(name)
 #TODO rewrite GET /faculty/delete router to DELETE!!
 
 ##API

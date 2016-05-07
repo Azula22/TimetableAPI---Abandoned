@@ -13,7 +13,7 @@ object GroupService {
 
   def getGroupIDByName(name: String): Future[Option[Long]] = Groups.getGroupByName(name)
 
-  def listAllGroups: Future[Seq[Group]] = Groups.listAll
+  def getAllGroups: Future[Seq[Group]] = Groups.listAll
 
   def getFacultyByGroupName(name: String): Future[Option[String]] = Groups.getFacultyByGroupName(name)
 }

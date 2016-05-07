@@ -12,7 +12,7 @@ class GroupController extends Controller {
 
   def get = Action.async {
     implicit request =>
-      GroupService.listAllGroups.map {
+      GroupService.getAllGroups.map {
         groups => Ok(views.html.addGroup(groups))
       }
   }
@@ -24,8 +24,15 @@ class GroupController extends Controller {
         data => {
           (for {
             seqOfFaculties <- FacultyService.getAllFaculties
-            fut <- GroupService.addGroup(Group(0, data.nameGroup, data.faculty)) if seqOfFaculties.exists(_.name == data.faculty)
-          } yield fut).map(_ => Redirect(routes.GroupController.get()))
+            fut <- if (seqOfFaculties.exists(_.name == data.faculty))
+              GroupService.addGroup(Group(0, data.nameGroup, data.faculty))
+            else
+              Future((): Unit)
+          } yield fut)
+            .map(_ => Redirect(routes.GroupController.get()))
+            .recoverWith { case _ =>
+              Future(Redirect(routes.GroupController.get()))
+            }
         })
   }
 

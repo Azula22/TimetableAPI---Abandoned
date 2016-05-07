@@ -1,0 +1,21 @@
+@(teachers: Seq[Teacher])(implicit request: RequestHeader)
+
+
+@main() {
+
+    <form id="faculty-data-form" role="form" action='@routes.TeacherController.addTeacher()' method="post" class="form-horizontal" autocomplete="off">
+        <input type="text" id="nameOfTeacher" name="nameOfTeacher" value="" placeholder="Teacher's name" class="form-control input-lg" required>
+        <div class="form-actions controls ynt-btn-xlarge">
+            <button type=submit class="btn btn-primary ynt-btn-orange">Add</button>
+        </div>
+    </form>
+
+    <div>
+        <table>
+            <tr>
+            @for(teacher <- teachers) {
+                <td>@teacher.name <a href="@routes.TeacherController.delete(teacher.name)">delete</a></td>
+            }</tr>
+        </table>
+    </div>
+}
